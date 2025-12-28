@@ -17514,3 +17514,51 @@
 2025-12-28 02:50:07,898 [INFO] config.env: .env loaded
 2025-12-28 02:50:07,898 [INFO] utils.github_utils: Init Github Utils
 2025-12-28 02:50:07,898 [INFO] utils.github_utils: Loading repo dipakchavda2912/base-serverless @ develop
+2025-12-28 15:51:12,529 [WARNING] dotenv.main: python-dotenv could not parse statement starting at line 5
+2025-12-28 15:51:12,531 [WARNING] dotenv.main: python-dotenv could not parse statement starting at line 5
+2025-12-28 15:51:12,548 [WARNING] dotenv.main: python-dotenv could not parse statement starting at line 5
+2025-12-28 15:51:12,566 [WARNING] dotenv.main: python-dotenv could not parse statement starting at line 5
+2025-12-28 15:51:12,585 [WARNING] dotenv.main: python-dotenv could not parse statement starting at line 5
+2025-12-28 15:51:12,642 [WARNING] dotenv.main: python-dotenv could not parse statement starting at line 5
+2025-12-28 15:51:12,649 [WARNING] dotenv.main: python-dotenv could not parse statement starting at line 5
+2025-12-28 15:51:13,360 [INFO] config.env: .env loaded
+2025-12-28 15:51:13,360 [WARNING] dotenv.main: python-dotenv could not parse statement starting at line 5
+2025-12-28 15:51:13,361 [INFO] config.env: .env loaded
+2025-12-28 15:51:13,362 [WARNING] dotenv.main: python-dotenv could not parse statement starting at line 5
+2025-12-28 15:51:13,362 [INFO] utils.github_utils: Init Github Utils
+2025-12-28 15:52:19,147 [INFO] config.env: .env loaded
+2025-12-28 15:52:19,148 [INFO] config.env: .env loaded
+2025-12-28 15:52:19,149 [INFO] utils.github_utils: Init Github Utils
+2025-12-28 15:52:19,149 [INFO] utils.github_utils: Loading repo dipakchavda2912/base-serverless @ develop
+2025-12-28 15:52:24,007 [INFO] chromadb.telemetry.product.posthog: Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-12-28 15:52:30,339 [INFO] config.env: .env loaded
+2025-12-28 15:52:30,340 [INFO] utils.github_utils: Init Github Utils
+2025-12-28 15:52:30,341 [INFO] utils.github_utils: Loading repo dipakchavda2912/base-serverless @ develop
+2025-12-28 15:53:26,397 [INFO] config.env: .env loaded
+2025-12-28 15:53:26,398 [INFO] config.env: .env loaded
+2025-12-28 15:53:26,398 [INFO] utils.github_utils: Init Github Utils
+2025-12-28 15:53:26,398 [INFO] utils.github_utils: Loading repo dipakchavda2912/base-serverless @ develop
+2025-12-28 15:53:31,795 [INFO] chromadb.telemetry.product.posthog: Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-12-28 15:53:35,307 [INFO] config.env: .env loaded
+2025-12-28 15:53:35,308 [INFO] utils.github_utils: Init Github Utils
+2025-12-28 15:53:35,308 [INFO] utils.github_utils: Loading repo dipakchavda2912/base-serverless @ develop
+2025-12-28 15:56:53,609 [INFO] config.env: .env loaded
+2025-12-28 15:56:53,610 [INFO] config.env: .env loaded
+2025-12-28 15:56:53,610 [INFO] utils.github_utils: Init Github Utils
+2025-12-28 15:56:53,611 [INFO] utils.github_utils: Loading repo dipakchavda2912/base-serverless @ develop
+2025-12-28 15:56:58,851 [INFO] main: Total document chunks fetched: 14
+2025-12-28 15:56:58,918 [INFO] chromadb.telemetry.product.posthog: Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-12-28 15:57:21,594 [INFO] config.env: .env loaded
+2025-12-28 15:57:21,597 [INFO] utils.github_utils: Init Github Utils
+2025-12-28 15:57:21,598 [INFO] utils.github_utils: Loading repo dipakchavda2912/base-serverless @ develop
+2025-12-28 15:57:26,896 [INFO] main: Total document chunks fetched: 14
+2025-12-28 15:59:02,213 [INFO] config.env: .env loaded
+2025-12-28 15:59:02,214 [INFO] config.env: .env loaded
+2025-12-28 15:59:02,214 [INFO] utils.github_utils: Init Github Utils
+2025-12-28 15:59:02,214 [INFO] utils.github_utils: Loading repo dipakchavda2912/base-serverless @ develop
+2025-12-28 15:59:08,122 [INFO] main: Total document chunks fetched: 14
+2025-12-28 15:59:08,182 [INFO] chromadb.telemetry.product.posthog: Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-12-28 15:59:30,147 [INFO] config.env: .env loaded
+2025-12-28 15:59:30,149 [INFO] utils.github_utils: Init Github Utils
+2025-12-28 15:59:30,150 [INFO] utils.github_utils: Loading repo dipakchavda2912/base-serverless @ develop
+2025-12-28 15:59:35,074 [INFO] main: Total document chunks fetched: 14

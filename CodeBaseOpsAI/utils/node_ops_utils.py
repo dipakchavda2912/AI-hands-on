@@ -9,12 +9,18 @@ class NodeOpsUtils:
   @staticmethod
   def clone_repo(main):
     repo_dir = CONSTANTS["REPO_DIR"]
+    # Create repo directory if it doesn't exist
+    os.makedirs(repo_dir, exist_ok=True)
+    # Go to that directory
+    subprocess.run(f"cd ~/${repo_dir}", cwd=repo_dir, shell=True)
+    # Remove any existing repo (optional, for a true reclone)
     subprocess.run(f"rm -rf base-serverless", shell=True, check=True)
     repo_url = "https://github.com/dipakchavda2912/base-serverless"
     branch = "develop"
-    os.makedirs(repo_dir, exist_ok=True)
     # Remove any existing repo (optional, for a true reclone)
     subprocess.run(f"rm -rf {repo_dir}base-serverless", shell=True, check=True)
+    # Show the current path
+    subprocess.run(f"pwd", shell=True, check=True)
     # Clone the repo
     subprocess.run(f"git clone {repo_url}", cwd=repo_dir, shell=True, check=True)
     # Checkout the branch
@@ -71,5 +77,26 @@ class NodeOpsUtils:
       """
     response = main.ask(query)
     comment = "\n\tRegion Map for deployment of lambda functions."
+    ServerlessUtils.update_custom("custom", response.strip(), comment=comment)
+    return response
+
+  @staticmethod
+  def set_log_level(main):
+    query = """
+      Request:
+      1 .Following are the log level used in the serverless.yml
+      info, debug, error
+      2. For the dev, qa environment the log level should be info
+      2. For the uat, uatdr environment the log level should be debug
+      3. For the prod, dr environment the log level should be error
+      4. We should create the logLevelMap attribute under custom attribute in serverless.yml
+      5. logLevelMap should have all the above environment and their log level in yaml format.
+      6. map in Yaml is a way to represent the structured data using key-value pairs.
+      Response:
+      1. Based on the above information generate the custom attributes for all the environments in yaml format compatible.
+      2. I want to get the result in plain text, without any code block, markdown formatting, any explanation, serverless attribute name.
+      """
+    response = main.ask(query)
+    comment = "\n\tLog Level Map helps to identify the log level for each environment."
     ServerlessUtils.update_custom("custom", response.strip(), comment=comment)
     return response

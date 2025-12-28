@@ -11,7 +11,7 @@ CONSTANTS = {
   "CHUNK_OVERLAP": 200,
   "SYSTEM_INSTRUCTIONS": "You are a helpful assistant for answering questions about the given GitHub repository. You can reply an answers of the questions by reading the codes from the repository files and give the answers in details by referring the mentioned github repository.",
   "REPO_DIR": os.path.expanduser(
-    "/repo-to-be-created/"
+    "~/repo-to-be-created/"
   )
 
 }
