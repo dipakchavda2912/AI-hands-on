@@ -3,4 +3,8 @@
 .ruff_cache
 .venv
 *.log
-
+__pycache__/
+*.pyc
+.vscode
+.DS_Store
+*.log
