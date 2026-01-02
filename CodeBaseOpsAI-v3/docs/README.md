@@ -20,7 +20,15 @@ docs/
 
 | Document | Description | Lines | When to Read |
 |----------|-------------|-------|--------------|
+| [START_HERE.md](START_HERE.md) | Navigation guide - start here! | 150 | **First stop for everyone** |
 | [README.md](guides/README.md) | Quick start and installation | 452 | First time using the project |
+| [UNDERSTANDING.md](guides/UNDERSTANDING.md) | **Educational deep dive** - WHY & HOW | 1,000+ | Understanding concepts deeply |
+| [TROUBLESHOOTING.md](guides/TROUBLESHOOTING.md) | **Debugging & common errors** | 1,300+ | When things don't work |
+| [EXAMPLES.md](guides/EXAMPLES.md) | **10+ practical tutorials** | 1,100+ | Learning by doing |
+| [FAQ.md](guides/FAQ.md) | **Frequently asked questions** | 1,100+ | Quick answers |
+| [CONFIGURATION_GUIDE.md](guides/CONFIGURATION_GUIDE.md) | **All settings explained** | 900+ | Configuring the system |
+| [DEVELOPMENT_GUIDE.md](guides/DEVELOPMENT_GUIDE.md) | **Contributing & extending** | 1,400+ | Adding features |
+| [TESTING_GUIDE.md](guides/TESTING_GUIDE.md) | **Testing best practices** | 1,200+ | Writing tests |
 | [DOCUMENTATION_INDEX.md](guides/DOCUMENTATION_INDEX.md) | Navigation guide to all docs | 389 | Finding specific documentation |
 | [DOCUMENTATION_SUMMARY.md](guides/DOCUMENTATION_SUMMARY.md) | Overview of all documentation | - | Understanding doc structure |
 | [QUICKSTART.md](guides/QUICKSTART.md) | Command reference | 130 | Need quick commands |

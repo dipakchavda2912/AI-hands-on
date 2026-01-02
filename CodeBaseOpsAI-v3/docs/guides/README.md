@@ -60,11 +60,11 @@ CodeBaseOpsAI v3 is a **production-grade** implementation following 2026 industr
 
 ### Complete Technical Documentation
 
-- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Complete execution flow, design patterns, and code walkthrough
-- **[API_REFERENCE.md](API_REFERENCE.md)** - Detailed function reference and examples
-- **[COMPARISON.md](COMPARISON.md)** - v2 vs v3 comparison
-- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Production deployment guide
-- **[MIGRATION.md](MIGRATION.md)** - Migrating from v2 to v3
+- **[ARCHITECTURE.md](../reference/ARCHITECTURE.md)** - Complete execution flow, design patterns, and code walkthrough
+- **[API_REFERENCE.md](../reference/API_REFERENCE.md)** - Detailed function reference and examples
+- **[COMPARISON.md](../migration/COMPARISON.md)** - v2 vs v3 comparison
+- **[DEPLOYMENT.md](../deployment/DEPLOYMENT.md)** - Production deployment guide
+- **[MIGRATION.md](../migration/MIGRATION.md)** - Migrating from v2 to v3
 - **[QUICKSTART.md](QUICKSTART.md)** - Quick command reference
 
 ### What's in Each Document?
@@ -77,7 +77,7 @@ CodeBaseOpsAI v3 is a **production-grade** implementation following 2026 industr
 | **COMPARISON.md** | Why v3 is different from v2 |
 | **DEPLOYMENT.md** | Docker, Kubernetes, production setup |
 
-**👉 Start with [ARCHITECTURE.md](ARCHITECTURE.md) for a complete understanding of how the code works!**
+**👉 Start with [ARCHITECTURE.md](../reference/ARCHITECTURE.md) for a complete understanding of how the code works!**
 
 ---
 
@@ -369,9 +369,9 @@ locust -f tests/load_test.py
 
 ## 📖 Documentation
 
-- **[README-PRODUCTION.md](README-PRODUCTION.md)** - Detailed features & usage
-- **[COMPARISON.md](COMPARISON.md)** - Before/after comparison
-- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Cloud deployment guide
+- **[README-PRODUCTION.md](../deployment/README-PRODUCTION.md)** - Detailed features & usage
+- **[COMPARISON.md](../migration/COMPARISON.md)** - Before/after comparison
+- **[DEPLOYMENT.md](../deployment/DEPLOYMENT.md)** - Cloud deployment guide
 
 ---
 
@@ -400,7 +400,7 @@ kubectl apply -f k8s/
 ```
 
 ### AWS ECS/Fargate
-See [DEPLOYMENT.md](DEPLOYMENT.md) for details
+See [DEPLOYMENT.md](../deployment/DEPLOYMENT.md) for details
 
 ---
 
@@ -434,9 +434,9 @@ This is a production template. Customize for your needs:
 ## 📞 Support
 
 For issues or questions:
-- Check [DEPLOYMENT.md](DEPLOYMENT.md) for troubleshooting
-- Review [COMPARISON.md](COMPARISON.md) for understanding differences
-- See examples in [main.py](main.py)
+- Check [DEPLOYMENT.md](../deployment/DEPLOYMENT.md) for troubleshooting
+- Review [COMPARISON.md](../migration/COMPARISON.md) for understanding differences
+- See examples in [main.py](../../main.py)
 
 ---
 

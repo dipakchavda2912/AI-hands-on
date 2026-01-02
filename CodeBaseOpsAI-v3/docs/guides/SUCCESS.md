@@ -84,12 +84,12 @@ python main.py
 
 | What Do You Want? | Read This |
 |-------------------|-----------|
-| **Get started quickly** | [README.md](CodeBaseOpsAI-v3/README.md) |
-| **Understand all features** | [README-PRODUCTION.md](CodeBaseOpsAI-v3/README-PRODUCTION.md) |
-| **See what changed from v2** | [COMPARISON.md](CodeBaseOpsAI-v3/COMPARISON.md) |
-| **Deploy to production** | [DEPLOYMENT.md](CodeBaseOpsAI-v3/DEPLOYMENT.md) |
-| **Understand the migration** | [MIGRATION.md](CodeBaseOpsAI-v3/MIGRATION.md) |
-| **Quick commands** | [QUICKSTART.md](CodeBaseOpsAI-v3/QUICKSTART.md) |
+| **Get started quickly** | [README.md](README.md) |
+| **Understand all features** | [README-PRODUCTION.md](../deployment/README-PRODUCTION.md) |
+| **See what changed from v2** | [COMPARISON.md](../migration/COMPARISON.md) |
+| **Deploy to production** | [DEPLOYMENT.md](../deployment/DEPLOYMENT.md) |
+| **Understand the migration** | [MIGRATION.md](../migration/MIGRATION.md) |
+| **Quick commands** | [QUICKSTART.md](QUICKSTART.md) |
 
 ---
 
@@ -145,20 +145,20 @@ python main.py
 4. ✅ Run `python main.py`
 
 ### Short Term (Today)
-5. ⬜ Read [README.md](CodeBaseOpsAI-v3/README.md)
+5. ⬜ Read [README.md](README.md)
 6. ⬜ Compare v2 and v3 code side-by-side
 7. ⬜ Try the API server (`uvicorn api_server:app --reload`)
 8. ⬜ Explore different usage patterns in main.py
 
 ### Medium Term (This Week)
-9. ⬜ Read [COMPARISON.md](CodeBaseOpsAI-v3/COMPARISON.md) to understand improvements
+9. ⬜ Read [COMPARISON.md](../migration/COMPARISON.md) to understand improvements
 10. ⬜ Run tests (`pytest tests/ -v`)
 11. ⬜ Try Docker deployment (`docker-compose up`)
 12. ⬜ Experiment with async patterns
 
 ### Long Term (Building Real Apps)
 13. ⬜ Add real GitHub API integration
-14. ⬜ Deploy to cloud (see [DEPLOYMENT.md](CodeBaseOpsAI-v3/DEPLOYMENT.md))
+14. ⬜ Deploy to cloud (see [DEPLOYMENT.md](../deployment/DEPLOYMENT.md))
 15. ⬜ Add your custom tools
 16. ⬜ Build your product on this foundation
 
@@ -228,9 +228,9 @@ uvicorn api_server:app --reload
 ```
 
 ### Documentation
-- **Quick commands**: See [QUICKSTART.md](CodeBaseOpsAI-v3/QUICKSTART.md)
-- **Full guide**: See [README.md](CodeBaseOpsAI-v3/README.md)
-- **Deployment**: See [DEPLOYMENT.md](CodeBaseOpsAI-v3/DEPLOYMENT.md)
+- **Quick commands**: See [QUICKSTART.md](QUICKSTART.md)
+- **Full guide**: See [README.md](README.md)
+- **Deployment**: See [DEPLOYMENT.md](../deployment/DEPLOYMENT.md)
 
 ---
 

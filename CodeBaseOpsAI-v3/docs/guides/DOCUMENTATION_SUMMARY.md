@@ -10,14 +10,14 @@ You now have **5,767 lines** of professional documentation across **10 markdown 
 
 | File | Lines | Size | Purpose |
 |------|-------|------|---------|
-| **[ARCHITECTURE.md](ARCHITECTURE.md)** | 1,818 | 62KB | **Complete execution flows, design patterns, how everything works** |
-| **[API_REFERENCE.md](API_REFERENCE.md)** | 1,057 | 23KB | **Every function, parameter, return value with examples** |
-| **[COMPARISON.md](COMPARISON.md)** | 532 | 13KB | v2 vs v3 differences explained |
-| **[DEPLOYMENT.md](DEPLOYMENT.md)** | 537 | 10KB | Production deployment guide |
+| **[ARCHITECTURE.md](../reference/ARCHITECTURE.md)** | 1,818 | 62KB | **Complete execution flows, design patterns, how everything works** |
+| **[API_REFERENCE.md](../reference/API_REFERENCE.md)** | 1,057 | 23KB | **Every function, parameter, return value with examples** |
+| **[COMPARISON.md](../migration/COMPARISON.md)** | 532 | 13KB | v2 vs v3 differences explained |
+| **[DEPLOYMENT.md](../deployment/DEPLOYMENT.md)** | 537 | 10KB | Production deployment guide |
 | **[README.md](README.md)** | 452 | 12KB | Quick start and overview |
 | **[DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** | 389 | 9.7KB | **Navigation guide (start here!)** |
-| **[MIGRATION.md](MIGRATION.md)** | 300 | 8.1KB | Upgrade from v2 to v3 |
-| **[README-PRODUCTION.md](README-PRODUCTION.md)** | 283 | 6.4KB | Production features |
+| **[MIGRATION.md](../migration/MIGRATION.md)** | 300 | 8.1KB | Upgrade from v2 to v3 |
+| **[README-PRODUCTION.md](../deployment/README-PRODUCTION.md)** | 283 | 6.4KB | Production features |
 | **[SUCCESS.md](SUCCESS.md)** | 269 | 7.8KB | Project summary |
 | **[QUICKSTART.md](QUICKSTART.md)** | 130 | 2.6KB | Command reference |
 
@@ -156,12 +156,12 @@ You now have **5,767 lines** of professional documentation across **10 markdown 
 1. **[DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** (5 min)
    - Understand documentation structure
 
-2. **[ARCHITECTURE.md](ARCHITECTURE.md)** (60 min)
+2. **[ARCHITECTURE.md](../reference/ARCHITECTURE.md)** (60 min)
    - Complete system understanding
    - All execution flows
    - Design patterns
 
-3. **[API_REFERENCE.md](API_REFERENCE.md)** (30 min)
+3. **[API_REFERENCE.md](../reference/API_REFERENCE.md)** (30 min)
    - Function signatures
    - Examples
 
@@ -177,7 +177,7 @@ You now have **5,767 lines** of professional documentation across **10 markdown 
    - Installation
    - Quick start
 
-2. **[API_REFERENCE.md](API_REFERENCE.md)** (20 min)
+2. **[API_REFERENCE.md](../reference/API_REFERENCE.md)** (20 min)
    - Key functions you need
    - Copy-paste examples
 
@@ -192,14 +192,14 @@ You now have **5,767 lines** of professional documentation across **10 markdown 
 
 **Read in this order:**
 
-1. **[DEPLOYMENT.md](DEPLOYMENT.md)** (30 min)
+1. **[DEPLOYMENT.md](../deployment/DEPLOYMENT.md)** (30 min)
    - Docker setup
    - Production config
 
-2. **[ARCHITECTURE.md](ARCHITECTURE.md)** - State Management section (15 min)
+2. **[ARCHITECTURE.md](../reference/ARCHITECTURE.md)** - State Management section (15 min)
    - Redis/Postgres setup
 
-3. **[API_REFERENCE.md](API_REFERENCE.md)** - REST API section (15 min)
+3. **[API_REFERENCE.md](../reference/API_REFERENCE.md)** - REST API section (15 min)
    - API endpoints
    - Integration
 
@@ -284,7 +284,7 @@ You now have **5,767 lines** of professional documentation across **10 markdown 
 ### For Reference Use
 
 1. **Bookmark these:**
-   - [API_REFERENCE.md](API_REFERENCE.md) - Function signatures
+   - [API_REFERENCE.md](../reference/API_REFERENCE.md) - Function signatures
    - [QUICKSTART.md](QUICKSTART.md) - Commands
    - [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) - Navigation
 
@@ -328,12 +328,12 @@ Code Examples:
 ### To Get Started
 
 1. **Read [README.md](README.md)** - Install and run your first example
-2. **Read [ARCHITECTURE.md](ARCHITECTURE.md)** - Understand how it works
-3. **Build something!** - Use [API_REFERENCE.md](API_REFERENCE.md) as reference
+2. **Read [ARCHITECTURE.md](../reference/ARCHITECTURE.md)** - Understand how it works
+3. **Build something!** - Use [API_REFERENCE.md](../reference/API_REFERENCE.md) as reference
 
 ### To Deploy to Production
 
-1. **Read [DEPLOYMENT.md](DEPLOYMENT.md)** - Docker and production setup
+1. **Read [DEPLOYMENT.md](../deployment/DEPLOYMENT.md)** - Docker and production setup
 2. **Configure environment** - Following the guide
 3. **Set up monitoring** - As documented
 

@@ -231,16 +231,16 @@ docker-compose up -d
 Start here based on your goal:
 
 ### Just Want to Run It?
-→ Read [README.md](README.md)
+→ Read [README.md](../guides/README.md)
 
 ### Want to Understand Features?
-→ Read [README-PRODUCTION.md](README-PRODUCTION.md)
+→ Read [README-PRODUCTION.md](../deployment/README-PRODUCTION.md)
 
 ### Want to See Before/After?
 → Read [COMPARISON.md](COMPARISON.md)
 
 ### Want to Deploy to Production?
-→ Read [DEPLOYMENT.md](DEPLOYMENT.md)
+→ Read [DEPLOYMENT.md](../deployment/DEPLOYMENT.md)
 
 ### Want to Understand the Migration?
 → You're reading it! (This file)

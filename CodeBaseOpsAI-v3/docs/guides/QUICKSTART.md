@@ -87,10 +87,10 @@ curl -X POST http://localhost:8000/agent/run \
 ## 🔗 Documentation
 
 - [README.md](README.md) - Quick start
-- [README-PRODUCTION.md](README-PRODUCTION.md) - Full features
-- [COMPARISON.md](COMPARISON.md) - v2 vs v3
-- [DEPLOYMENT.md](DEPLOYMENT.md) - Production deployment
-- [MIGRATION.md](MIGRATION.md) - Migration guide
+- [README-PRODUCTION.md](../deployment/README-PRODUCTION.md) - Full features
+- [COMPARISON.md](../migration/COMPARISON.md) - v2 vs v3
+- [DEPLOYMENT.md](../deployment/DEPLOYMENT.md) - Production deployment
+- [MIGRATION.md](../migration/MIGRATION.md) - Migration guide
 
 ## ⚡ Quick Tips
 
