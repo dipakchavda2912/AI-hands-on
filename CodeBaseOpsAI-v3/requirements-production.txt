@@ -1,0 +1,41 @@
+# Production Requirements
+# Updated dependencies for production-grade application
+
+# Core LangChain and LangGraph
+langchain==1.2.0
+langchain-core==1.2.5
+langchain-community==0.4.1
+langgraph==1.0.5
+langgraph-checkpoint==3.0.1
+
+# Google AI Integration
+langchain-google-genai==4.1.2
+google-generativeai==0.8.6
+google-ai-generativelanguage==0.6.15
+
+# Async and Performance
+aiohttp==3.13.2
+httpx==0.28.1
+anyio==4.12.0
+
+# Data Validation
+pydantic==2.12.0
+pydantic-core==2.27.0
+
+# Configuration Management
+python-dotenv==1.0.1
+
+# Logging and Observability
+langsmith==0.5.2  # For production tracing and monitoring
+
+# Optional: Advanced features
+# GitPython==3.1.43  # For actual Git operations
+# redis==5.0.1  # For distributed checkpointing
+# prometheus-client==0.20.0  # For metrics
+# sentry-sdk==1.40.0  # For error tracking
+
+# Development Tools (optional)
+# pytest==8.0.0
+# pytest-asyncio==0.23.5
+# black==24.2.0
+# ruff==0.2.0
