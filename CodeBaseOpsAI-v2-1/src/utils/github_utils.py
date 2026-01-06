@@ -139,3 +139,21 @@ class GithubUtils:
             return False, f"Checkout operation timed out ({timeout}s limit)"
         except Exception as e:
             return False, str(e)
+
+    @staticmethod
+    def list_files_cmd(github_client: Github, repository: str, branch: str = "main") -> str:
+        """List all files in the root of a GitHub repository.
+        Args:
+            github_client: Authenticated GitHub client
+            repository: Repository name in format 'owner/repo'
+            branch: Branch name
+        Returns:
+            String listing all files in the repository root
+        """
+        try:
+            repo: Repository = github_client.get_repo(repository)
+            contents = repo.get_contents("", ref=branch)
+            file_list = [content.path for content in contents]
+            return "\n".join(file_list)
+        except Exception as e:
+            return f"Error listing files: {str(e)}"

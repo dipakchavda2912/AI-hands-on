@@ -23,14 +23,35 @@ class Main():
         pass
 
     def get_query(self) -> List[str]:
-        common_queries = """dev, qa, uat, uatdr, prod, dr are the environments used in the serverless.yml. """
+        source_repository = "dipakchavda2912/base-serverless"
+        clone_path = "/tmp/base-serverless-clone/"
+        branch = "develop"
         return [
-            "Read the repository 'dipakchavda2912/base-serverless' on branch 'develop'.",
-            "Clone the repository 'dipakchavda2912/base-serverless' to local filesystem at /tmp/base-serverless-clone/",
-            "Checkout the 'develop' branch in the cloned repository at /tmp/base-serverless-clone/.",
-            "List all the files in the cloned repository at /tmp/base-serverless-clone/.",
-            "Load the /tmp/base-serverless-clone/serverless.yml file from the local filesystem path /tmp/base-serverless-clone/ and parse it.",
-            """Generate custom attributes for /tmp/base-serverless-clone/serverless.yml environments. Environments: dev, qa, uat, uatdr use AWS account ID 1234567890. Environments: prod, dr use AWS account ID 0987654321. Use pattern '<env>-account-id: <account-id>' for each environment. Update the serverless.yml file accordingly."""
+            f"Read the repository '{source_repository}' on branch '{branch}'.",
+
+            f"Clone the repository '{source_repository}' to local filesystem at {clone_path}",
+
+            f"Checkout the '{branch}' branch in the cloned repository at {clone_path}.",
+
+            f"List all the files in the cloned repository at {clone_path} on branch {branch}",
+
+            f"Load the {clone_path}serverless.yml file from the local filesystem path {clone_path} and parse it.",
+
+            f"Create a `custom` key in the {clone_path}serverless.yml file if it does not already exist.",
+
+            f"""Add AWS account ID mappings under the 'custom' key.
+            beginning: '# AWS account Id Map that would be used as a map for forming urns.'
+            For environments dev, qa, uat, uatdr: use AWS account ID 1234567890
+            For environments prod, dr: use AWS account ID 0987654321
+            Use the pattern '<env>-account-id: <account-id>' for each environment (e.g., dev-account-id: 1234567890).
+            Update the {clone_path}serverless.yml file with these mappings.""",
+
+            f"""Add AWS region mappings under the 'custom' key.
+            beginning: '# AWS Region Map for deployment of lambda functions.'
+            For environments dev, qa, uat, dr: use AWS region us-west-2
+            For environments uatdr, prod: use AWS region us-east-1
+            Use the pattern '<env>-region: <aws-region-name>' for each environment (e.g., dev-region: us-west-2).
+            Update the {clone_path}serverless.yml file with these mappings."""
         ]
 
     def execute(self):
