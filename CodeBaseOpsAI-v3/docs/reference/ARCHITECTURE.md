@@ -59,10 +59,10 @@ The entry point for external requests. Provides three API patterns:
 │                FastAPI Application                  │
 ├─────────────────────────────────────────────────────┤
 │                                                     │
-│  GET  /health          → Health check              │
-│  POST /agent/run       → Sync execution            │
-│  POST /agent/stream    → SSE streaming             │
-│  POST /agent/background → Fire-and-forget          │
+│  GET  /health          → Health check               │
+│  POST /agent/run       → Sync execution             │
+│  POST /agent/stream    → SSE streaming              │
+│  POST /agent/background → Fire-and-forget           │
 │                                                     │
 └─────────────────────────────────────────────────────┘
 ```
@@ -84,20 +84,20 @@ The brain of the system. Manages:
 │              GithubAgent Class                      │
 ├─────────────────────────────────────────────────────┤
 │                                                     │
-│  ┌─────────────────────────────────────┐          │
-│  │   LangGraph ReAct Agent             │          │
-│  │   • State: Messages + Metadata      │          │
-│  │   • Checkpointing: MemorySaver      │          │
-│  │   • Tools: GitHub operations        │          │
-│  └─────────────────────────────────────┘          │
-│                    ↓                               │
-│  ┌─────────────────────────────────────┐          │
-│  │   Execution Methods                 │          │
-│  │   • run()        → Sync             │          │
-│  │   • run_async()  → Async            │          │
-│  │   • stream()     → Streaming        │          │
-│  │   • continue_conversation()         │          │
-│  └─────────────────────────────────────┘          │
+│  ┌─────────────────────────────────────┐            │
+│  │   LangGraph ReAct Agent             │            │
+│  │   • State: Messages + Metadata      │            │
+│  │   • Checkpointing: MemorySaver      │            │
+│  │   • Tools: GitHub operations        │            │
+│  └─────────────────────────────────────┘            │
+│                    ↓                                │
+│  ┌─────────────────────────────────────┐            │
+│  │   Execution Methods                 │            │
+│  │   • run()        → Sync             │            │
+│  │   • run_async()  → Async            │            │
+│  │   • stream()     → Streaming        │            │
+│  │   • continue_conversation()         │            │
+│  └─────────────────────────────────────┘            │
 │                                                     │
 └─────────────────────────────────────────────────────┘
 ```
@@ -117,18 +117,18 @@ The brain of the system. Manages:
 │        ChatGoogleGenerativeAI                       │
 ├─────────────────────────────────────────────────────┤
 │                                                     │
-│  Model: gemini-2.0-flash-exp                       │
+│  Model: gemini-2.0-flash-exp                        │
 │  Features:                                          │
-│    • Function calling (tool use)                   │
-│    • Structured outputs                            │
-│    • Token streaming                               │
-│    • Context window: 1M tokens                     │
-│    • Multimodal support                            │
+│    • Function calling (tool use)                    │
+│    • Structured outputs                             │
+│    • Token streaming                                │
+│    • Context window: 1M tokens                      │
+│    • Multimodal support                             │
 │                                                     │
-│  Production Settings:                              │
-│    • Temperature: 0.0 (deterministic)              │
-│    • Max retries: 3                                │
-│    • Timeout: 60s                                  │
+│  Production Settings:                               │
+│    • Temperature: 0.0 (deterministic)               │
+│    • Max retries: 3                                 │
+│    • Timeout: 60s                                   │
 │                                                     │
 └─────────────────────────────────────────────────────┘
 ```
@@ -148,26 +148,26 @@ The brain of the system. Manages:
 │              GithubTools Class                      │
 ├─────────────────────────────────────────────────────┤
 │                                                     │
-│  ┌─────────────────────────────────────┐          │
-│  │  Pydantic Input Schemas             │          │
-│  │  • ReadRepositoryInput              │          │
-│  │  • CloneRepositoryInput             │          │
-│  │  → Validates all inputs             │          │
-│  └─────────────────────────────────────┘          │
-│                    ↓                               │
-│  ┌─────────────────────────────────────┐          │
-│  │  StructuredTool Instances           │          │
-│  │  • read_repository                  │          │
-│  │  • clone_repository                 │          │
-│  │  → Type-safe tool calling           │          │
-│  └─────────────────────────────────────┘          │
-│                    ↓                               │
-│  ┌─────────────────────────────────────┐          │
-│  │  Business Logic Functions           │          │
-│  │  • _read_repository_impl()          │          │
-│  │  • _clone_repository_impl()         │          │
-│  │  → Actual GitHub operations         │          │
-│  └─────────────────────────────────────┘          │
+│  ┌─────────────────────────────────────┐            │
+│  │  Pydantic Input Schemas             │            │
+│  │  • ReadRepositoryInput              │            │
+│  │  • CloneRepositoryInput             │            │
+│  │  → Validates all inputs             │            │
+│  └─────────────────────────────────────┘            │
+│                    ↓                                │
+│  ┌─────────────────────────────────────┐            │
+│  │  StructuredTool Instances           │            │
+│  │  • read_repository                  │            │
+│  │  • clone_repository                 │            │
+│  │  → Type-safe tool calling           │            │
+│  └─────────────────────────────────────┘            │
+│                    ↓                                │
+│  ┌─────────────────────────────────────┐            │
+│  │  Business Logic Functions           │            │
+│  │  • _read_repository_impl()          │            │
+│  │  • _clone_repository_impl()         │            │
+│  │  → Actual GitHub operations         │            │
+│  └─────────────────────────────────────┘            │
 │                                                     │
 └─────────────────────────────────────────────────────┘
 ```
@@ -194,28 +194,28 @@ The brain of the system. Manages:
                             ↓
 ┌───────────────────────────────────────────────────────────────┐
 │  2. Initialize Components                                     │
-│     tools = GithubTools().get_tools()                        │
-│     agent = GithubAgent(tools, model_name, ...)              │
+│     tools = GithubTools().get_tools()                         │
+│     agent = GithubAgent(tools, model_name, ...)               │
 └───────────────────────────────────────────────────────────────┘
                             ↓
 ┌───────────────────────────────────────────────────────────────┐
 │  3. Agent Execution                                           │
-│     result = agent.run(user_request)                         │
+│     result = agent.run(user_request)                          │
 │                                                               │
 │     Internal Steps:                                           │
-│     a) Create HumanMessage with request                      │
-│     b) Execute LangGraph agent.invoke()                      │
-│     c) Agent enters ReAct loop:                              │
-│        → Thought: What do I need to do?                      │
-│        → Action: call read_repository tool                   │
-│        → Observation: tool returns result                    │
-│        → Thought: I have the answer                          │
-│        → Final Answer: formatted response                    │
+│     a) Create HumanMessage with request                       │
+│     b) Execute LangGraph agent.invoke()                       │
+│     c) Agent enters ReAct loop:                               │
+│        → Thought: What do I need to do?                       │
+│        → Action: call read_repository tool                    │
+│        → Observation: tool returns result                     │
+│        → Thought: I have the answer                           │
+│        → Final Answer: formatted response                     │
 └───────────────────────────────────────────────────────────────┘
                             ↓
 ┌───────────────────────────────────────────────────────────────┐
 │  4. Extract Response                                          │
-│     output = result["messages"][-1].content                  │
+│     output = result["messages"][-1].content                   │
 └───────────────────────────────────────────────────────────────┘
                             ↓
 ┌───────────────────────────────────────────────────────────────┐
@@ -265,38 +265,38 @@ def example_sync():
 ```python
 ┌───────────────────────────────────────────────────────────────┐
 │  1. Async Event Loop                                          │
-│     asyncio.run(example_async())                             │
+│     asyncio.run(example_async())                              │
 └───────────────────────────────────────────────────────────────┘
                             ↓
 ┌───────────────────────────────────────────────────────────────┐
 │  2. Initialize Agent (same as sync)                           │
-│     agent = GithubAgent(...)                                 │
+│     agent = GithubAgent(...)                                  │
 └───────────────────────────────────────────────────────────────┘
                             ↓
 ┌───────────────────────────────────────────────────────────────┐
 │  3. Async Execution                                           │
-│     result = await agent.run_async(                          │
+│     result = await agent.run_async(                           │
 │         user_request="...",                                   │
-│         thread_id="user_123",                                │
-│         metadata={"user_id": "123"}                          │
+│         thread_id="user_123",                                 │
+│         metadata={"user_id": "123"}                           │
 │     )                                                         │
 │                                                               │
 │     Internal Steps:                                           │
-│     a) Generate thread_id if not provided                    │
-│     b) Create RunnableConfig with thread_id                  │
-│     c) await agent.ainvoke() (async invoke)                 │
-│     d) Extract final message                                 │
-│     e) Return structured dict with metadata                  │
+│     a) Generate thread_id if not provided                     │
+│     b) Create RunnableConfig with thread_id                   │
+│     c) await agent.ainvoke() (async invoke)                   │
+│     d) Extract final message                                  │
+│     e) Return structured dict with metadata                   │
 └───────────────────────────────────────────────────────────────┘
                             ↓
 ┌───────────────────────────────────────────────────────────────┐
 │  4. Response Structure                                        │
 │     {                                                         │
 │         "success": True,                                      │
-│         "output": "Repository analysis...",                  │
-│         "thread_id": "user_123",                             │
-│         "execution_time": 2.34,                              │
-│         "timestamp": "2026-01-02T10:30:00Z"                  │
+│         "output": "Repository analysis...",                   │
+│         "thread_id": "user_123",                              │
+│         "execution_time": 2.34,                               │
+│         "timestamp": "2026-01-02T10:30:00Z"                   │
 │     }                                                         │
 └───────────────────────────────────────────────────────────────┘
 ```
@@ -332,35 +332,35 @@ results = await asyncio.gather(
 ```python
 ┌───────────────────────────────────────────────────────────────┐
 │  1. Start Streaming                                           │
-│     async for chunk in agent.stream(user_request):           │
+│     async for chunk in agent.stream(user_request):            │
 └───────────────────────────────────────────────────────────────┘
                             ↓
 ┌───────────────────────────────────────────────────────────────┐
 │  2. Stream Events                                             │
 │                                                               │
-│     Event 1: {"type": "agent_start", ...}                    │
+│     Event 1: {"type": "agent_start", ...}                     │
 │              ↓ (print immediately)                            │
 │                                                               │
-│     Event 2: {"type": "tool_call", "tool": "read_repo"}     │
+│     Event 2: {"type": "tool_call", "tool": "read_repo"}       │
 │              ↓ (print immediately)                            │
 │                                                               │
-│     Event 3: {"type": "tool_result", "output": "..."}       │
+│     Event 3: {"type": "tool_result", "output": "..."}         │
 │              ↓ (print immediately)                            │
 │                                                               │
-│     Event 4: {"type": "agent_response", "content": "..."}   │
+│     Event 4: {"type": "agent_response", "content": "..."}     │
 │              ↓ (print immediately)                            │
 │                                                               │
-│     Event 5: {"type": "agent_end", "final_output": "..."}   │
+│     Event 5: {"type": "agent_end", "final_output": "..."}     │
 │              ↓ (print immediately)                            │
 └───────────────────────────────────────────────────────────────┘
                             ↓
 ┌───────────────────────────────────────────────────────────────┐
 │  3. User Sees Real-time Updates                               │
-│     [10:30:01] Agent started...                              │
-│     [10:30:02] Calling read_repository...                    │
-│     [10:30:04] Tool returned: {"files": [...]}               │
-│     [10:30:05] Agent thinking...                             │
-│     [10:30:06] Final answer: Repository contains...          │
+│     [10:30:01] Agent started...                               │
+│     [10:30:02] Calling read_repository...                     │
+│     [10:30:04] Tool returned: {"files": [...]}                │
+│     [10:30:05] Agent thinking...                              │
+│     [10:30:06] Final answer: Repository contains...           │
 └───────────────────────────────────────────────────────────────┘
 ```
 
@@ -459,31 +459,31 @@ User: "Analyze this repo"
 │  State Graph:                                                 │
 │  {                                                            │
 │    "messages": [                                              │
-│      HumanMessage("Read repository X"),                      │
-│      AIMessage("Repository contains 47 files...")            │
+│      HumanMessage("Read repository X"),                       │
+│      AIMessage("Repository contains 47 files...")             │
 │    ],                                                         │
-│    "thread_id": "conv_123"                                   │
+│    "thread_id": "conv_123"                                    │
 │  }                                                            │
 └───────────────────────────────────────────────────────────────┘
                             ↓
 ┌───────────────────────────────────────────────────────────────┐
-│  Turn 2: "What files are in it?" (with same thread_id)       │
+│  Turn 2: "What files are in it?" (with same thread_id)        │
 │                                                               │
 │  Agent has context from Turn 1!                               │
 │  State Graph:                                                 │
 │  {                                                            │
 │    "messages": [                                              │
-│      HumanMessage("Read repository X"),                      │
-│      AIMessage("Repository contains 47 files..."),           │
-│      HumanMessage("What files are in it?"),                  │
-│      AIMessage("The files include: README.md, ...")          │
+│      HumanMessage("Read repository X"),                       │
+│      AIMessage("Repository contains 47 files..."),            │
+│      HumanMessage("What files are in it?"),                   │
+│      AIMessage("The files include: README.md, ...")           │
 │    ],                                                         │
-│    "thread_id": "conv_123"                                   │
+│    "thread_id": "conv_123"                                    │
 │  }                                                            │
 └───────────────────────────────────────────────────────────────┘
                             ↓
 ┌───────────────────────────────────────────────────────────────┐
-│  Turn 3: "Clone it to /tmp/myrepo"                           │
+│  Turn 3: "Clone it to /tmp/myrepo"                            │
 │                                                               │
 │  Agent remembers: repository name, branch, file list          │
 │  Can make intelligent decisions based on conversation         │

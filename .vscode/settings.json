@@ -8,7 +8,9 @@
     "chat.editor.fontFamily": "'JetBrains Mono', monospace",
     "chat.editor.fontSize": 14,
     "python.analysis.extraPaths": [
-        "./CodeBaseOpsAI-v2/utils"
+        "./CodeBaseOpsAI-v2/utils",
+        "./CodeBaseOpsAI-v2-1/tools",
+        "./CodeBaseOpsAI-v2-1/tools"
     ],
     "python.formatting.provider": "autopep8",
     "editor.formatOnSave": true,
