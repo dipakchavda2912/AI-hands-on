@@ -1,8 +1,13 @@
 import os
 from langchain_core.tools import StructuredTool
 from github import Github
-from pydantic import BaseModel, Field
 from ..utils import GithubUtils
+from ..schemas.github_schemas import (
+    ReadRepoInput,
+    CloneRepoInput,
+    CheckoutBranchInput,
+    ListRepoFilesInput
+)
 
 
 class GithubTools:
@@ -92,28 +97,6 @@ class GithubTools:
 
     def get_tools(self) -> list[StructuredTool]:
         """Get list of all available tools."""
-
-        # Define input schemas
-        class ReadRepoInput(BaseModel):
-            repository: str = Field(
-                description="Repository name in format 'owner/repo'")
-            branch: str = Field(default="main", description="Branch name")
-
-        class CloneRepoInput(BaseModel):
-            repository: str = Field(
-                description="Repository URL or name in format 'owner/repo'")
-            clone_path: str = Field(
-                default="/tmp/repo", description="Local path to clone to")
-
-        class CheckoutBranchInput(BaseModel):
-            repo_path: str = Field(
-                description="Local path of the cloned repository")
-            branch: str = Field(description="Branch name to checkout")
-
-        class ListRepoFilesInput(BaseModel):
-            repo_path: str = Field(
-                description="Local path of the cloned repository")
-
         return [
             StructuredTool(
                 name="read_repository",

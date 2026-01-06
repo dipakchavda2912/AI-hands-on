@@ -1,7 +1,12 @@
 from langchain_core.tools import StructuredTool
-from pydantic import BaseModel, Field
 import yaml
 from ..utils import YamlUtils
+from ..schemas.yaml_schemas import (
+    UpdateYamlInput,
+    ReadYamlInput,
+    EnsureDictKeyInput,
+    AddAttributesInput
+)
 
 
 class YamlTools:
@@ -126,32 +131,6 @@ class YamlTools:
 
     def get_tools(self) -> list[StructuredTool]:
         """Get list of all available tools."""
-
-        # Define input schema for YAML update
-        class UpdateYamlInput(BaseModel):
-            yaml_file_path: str = Field(
-                description="Path to the YAML file to update")
-            attribute_path: str = Field(
-                description="Dot-separated path to the attribute (e.g., 'service.name' or 'functions.myFunction.handler')")
-            new_value: str = Field(
-                description="New value to set for the attribute")
-
-        class ReadYamlInput(BaseModel):
-            yaml_file_path: str = Field(
-                description="Path to the YAML file to read")
-
-        class EnsureDictKeyInput(BaseModel):
-            yaml_file_path: str = Field(description="Path to the YAML file")
-            key_path: str = Field(
-                description="Key path to ensure exists as a dictionary (e.g., 'custom')")
-
-        class AddAttributesInput(BaseModel):
-            yaml_file_path: str = Field(description="Path to the YAML file")
-            parent_key: str = Field(
-                description="Parent key to add attributes under (e.g., 'custom')")
-            attributes_yaml: str = Field(
-                description="YAML formatted string of attributes to add")
-
         return [
             StructuredTool(
                 name="update_yaml_attribute",
