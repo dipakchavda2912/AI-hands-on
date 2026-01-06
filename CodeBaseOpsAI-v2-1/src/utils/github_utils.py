@@ -1,3 +1,4 @@
+from ast import List
 import os
 import shutil
 import subprocess
@@ -141,19 +142,42 @@ class GithubUtils:
             return False, str(e)
 
     @staticmethod
-    def list_files_cmd(github_client: Github, repository: str, branch: str = "main") -> str:
-        """List all files in the root of a GitHub repository.
+    def list_files_in_local_repo(repo_path: str) -> Tuple[bool, str]:
+        """List all files in a local Git repository.
+
         Args:
-            github_client: Authenticated GitHub client
-            repository: Repository name in format 'owner/repo'
-            branch: Branch name
+            repo_path: Local path of the cloned repository
+
         Returns:
-            String listing all files in the repository root
+            Tuple of (success, result_string)
         """
         try:
-            repo: Repository = github_client.get_repo(repository)
-            contents = repo.get_contents("", ref=branch)
-            file_list = [content.path for content in contents]
-            return "\n".join(file_list)
+            if not os.path.exists(repo_path):
+                return False, f"Repository path does not exist: {repo_path}"
+
+            if not os.path.isdir(repo_path):
+                return False, f"Path is not a directory: {repo_path}"
+
+            # Use git ls-files to list tracked files
+            result = subprocess.run(
+                ["git", "ls-files"],
+                cwd=repo_path,
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+
+            if result.returncode == 0:
+                files = result.stdout.strip().split('\n')
+                files = [f for f in files if f]  # Remove empty strings
+                file_count = len(files)
+                output = f"Found {file_count} files in {repo_path}:\n\n" + \
+                    "\n".join(files)
+                return True, output
+            else:
+                return False, f"Error running git ls-files: {result.stderr}"
+
+        except subprocess.TimeoutExpired:
+            return False, "List files operation timed out (30s limit)"
         except Exception as e:
-            return f"Error listing files: {str(e)}"
+            return False, f"Error listing files: {str(e)}"

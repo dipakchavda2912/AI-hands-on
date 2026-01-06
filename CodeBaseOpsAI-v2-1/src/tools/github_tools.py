@@ -74,16 +74,21 @@ class GithubTools:
         else:
             return f"Error checking out branch: {error_msg}"
 
-    def list_files(self, repo_path: str, branch: str) -> str:
+    def list_files(self, repo_path: str) -> str:
         """List all files in the cloned repository.
 
         Args:
             repo_path: Local path of the cloned repository
+
         Returns:
             String listing all files
         """
-        file_list = GithubUtils.list_files_cmd(repo_path, branch)
-        return "\n".join(file_list)
+        success, result = GithubUtils.list_files_in_local_repo(repo_path)
+
+        if success:
+            return result
+        else:
+            return f"Error listing files: {result}"
 
     def get_tools(self) -> list[StructuredTool]:
         """Get list of all available tools."""
@@ -108,7 +113,6 @@ class GithubTools:
         class ListRepoFilesInput(BaseModel):
             repo_path: str = Field(
                 description="Local path of the cloned repository")
-            branch: str = Field(description="Branch name")
 
         return [
             StructuredTool(

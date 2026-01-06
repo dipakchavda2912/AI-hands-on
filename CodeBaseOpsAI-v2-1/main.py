@@ -44,6 +44,7 @@ class Main():
             For environments dev, qa, uat, uatdr: use AWS account ID 1234567890
             For environments prod, dr: use AWS account ID 0987654321
             Use the pattern '<env>-account-id: <account-id>' for each environment (e.g., dev-account-id: 1234567890).
+            Value should not use quotes.
             Update the {clone_path}serverless.yml file with these mappings.""",
 
             f"""Add AWS region mappings under the 'custom' key.
@@ -51,7 +52,51 @@ class Main():
             For environments dev, qa, uat, dr: use AWS region us-west-2
             For environments uatdr, prod: use AWS region us-east-1
             Use the pattern '<env>-region: <aws-region-name>' for each environment (e.g., dev-region: us-west-2).
-            Update the {clone_path}serverless.yml file with these mappings."""
+            Value should not use quotes.
+            Update the {clone_path}serverless.yml file with these mappings.""",
+
+            f"""Add pOwner: abcd attribute under the `custom` key in the {clone_path}serverless.yml file.""",
+
+            f"""Add pVertical: abcd attribute under the `custom` key in the {clone_path}serverless.yml file.""",
+
+            f"""Add pAccountId: which is referring the dynamic account id based on the environment from the AWS account ID mappings under the `custom` key in the {clone_path}serverless.yml file.""",
+
+            f"""Add pAppName: abcd attribute under the `custom` key in the {clone_path}serverless.yml file.""",
+
+            f"""Add pCostcenter: 1010011:1111111 attribute under the `custom` key in the {clone_path}serverless.yml file.""",
+
+            f"""Add pEnvironment attribute under the `custom` key in the {clone_path}serverless.yml file.
+            The value should be a serverless framework variable reference: ${{opt:stage, self:provider.stage}}
+            This dynamically resolves to either the --stage CLI option or the provider.stage value from the serverless.yml file.
+            The value should NOT use quotes.""",
+
+            f"""Add bucket name as per enviroment under the `custom` key in the {clone_path}serverless.yml file.
+            beginning: '# S3 Bucket names for different environments.'
+            For environments dev, qa use the bucket name as per environment.
+            For environments uat, uatdr use the bucket name uat.
+            For environments prod, dr use bucket name prod.
+            Use the pattern '<env>-bucket: <bucket-name>' for each environment (e.g., dev-bucket: dev).
+            Value should not use quotes.""",
+
+            f"""
+            There is an attribute name <env>-datadog-api-arn under the `custom` key in the {clone_path}serverless.yml file.
+            beginning: '# Datadog API Key Secret Manager ARN per environment.'
+            For environments dev, qa, uat, uatdr, prod, dr use qualified secretmanager arn as per environment.
+            """,
+
+            f"""
+            Add a nested attribute 'datadog' under the `custom` key in the {clone_path}serverless.yml file.
+            The datadog attribute should contain two sub-attributes:
+            1. site: datadoghq.com (plain string value without quotes)
+            2. apiKeySecretArn: should use a serverless framework variable reference to dynamically reference the environment-specific datadog ARN.
+
+            The apiKeySecretArn value should be: ${{self:custom.${{self:custom.pEnvironment}}-datadog-api-arn}}
+            This dynamically resolves to the correct environment's datadog ARN by:
+            - First resolving pEnvironment to get current environment (dev/prod/etc)
+            - Then using that to reference the corresponding <env>-datadog-api-arn attribute
+
+            Values should NOT use quotes.
+            """,
         ]
 
     def execute(self):

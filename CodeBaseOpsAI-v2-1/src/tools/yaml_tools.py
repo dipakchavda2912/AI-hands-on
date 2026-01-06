@@ -1,5 +1,6 @@
 from langchain_core.tools import StructuredTool
 from pydantic import BaseModel, Field
+import yaml
 from ..utils import YamlUtils
 
 
@@ -60,6 +61,69 @@ class YamlTools:
         except Exception as e:
             return f"Error updating YAML file: {str(e)}"
 
+    def ensure_dict_key(self, yaml_file_path: str, key_path: str) -> str:
+        """Ensure a key exists as a dictionary in a YAML file.
+
+        Args:
+            yaml_file_path: Path to the YAML file
+            key_path: Dot-separated path to the key (e.g., 'custom')
+
+        Returns:
+            String with operation status
+        """
+        try:
+            if not YamlUtils.file_exists(yaml_file_path):
+                return f"Error: File '{yaml_file_path}' does not exist."
+
+            data = YamlUtils.parse_yaml(yaml_file_path)
+            success, message = YamlUtils.ensure_key_is_dict(data, key_path)
+
+            if success:
+                YamlUtils.write_yaml(yaml_file_path, data)
+                return f"Success: {message}"
+            else:
+                return f"Error: {message}"
+
+        except Exception as e:
+            return f"Error ensuring dictionary key: {str(e)}"
+
+    def add_yaml_attributes(self, yaml_file_path: str, parent_key: str, attributes_yaml: str) -> str:
+        """Add multiple attributes under a parent key in a YAML file.
+
+        Args:
+            yaml_file_path: Path to the YAML file
+            parent_key: Parent key path (e.g., 'custom')
+            attributes_yaml: YAML formatted string of attributes to add
+
+        Returns:
+            String with operation status
+        """
+        try:
+            if not YamlUtils.file_exists(yaml_file_path):
+                return f"Error: File '{yaml_file_path}' does not exist."
+
+            # Parse the main file
+            data = YamlUtils.parse_yaml(yaml_file_path)
+
+            # Parse the attributes YAML string
+            attributes = yaml.safe_load(attributes_yaml)
+            if not isinstance(attributes, dict):
+                return "Error: attributes_yaml must be a valid YAML dictionary"
+
+            # Add attributes
+            count, added_keys = YamlUtils.add_multiple_attributes(
+                data, parent_key, attributes)
+
+            # Write back
+            YamlUtils.write_yaml(yaml_file_path, data)
+
+            return f"Successfully added {count} attributes under '{parent_key}': {', '.join(added_keys)}"
+
+        except yaml.YAMLError as e:
+            return f"Error parsing attributes YAML: {str(e)}"
+        except Exception as e:
+            return f"Error adding attributes: {str(e)}"
+
     def get_tools(self) -> list[StructuredTool]:
         """Get list of all available tools."""
 
@@ -76,6 +140,18 @@ class YamlTools:
             yaml_file_path: str = Field(
                 description="Path to the YAML file to read")
 
+        class EnsureDictKeyInput(BaseModel):
+            yaml_file_path: str = Field(description="Path to the YAML file")
+            key_path: str = Field(
+                description="Key path to ensure exists as a dictionary (e.g., 'custom')")
+
+        class AddAttributesInput(BaseModel):
+            yaml_file_path: str = Field(description="Path to the YAML file")
+            parent_key: str = Field(
+                description="Parent key to add attributes under (e.g., 'custom')")
+            attributes_yaml: str = Field(
+                description="YAML formatted string of attributes to add")
+
         return [
             StructuredTool(
                 name="update_yaml_attribute",
@@ -88,5 +164,17 @@ class YamlTools:
                 func=self.read_yaml,
                 description="Read and return the contents of a YAML file",
                 args_schema=ReadYamlInput
+            ),
+            StructuredTool(
+                name="ensure_yaml_dict_key",
+                func=self.ensure_dict_key,
+                description="Ensure a key exists as a dictionary in a YAML file, creating or converting it if needed",
+                args_schema=EnsureDictKeyInput
+            ),
+            StructuredTool(
+                name="add_yaml_attributes",
+                func=self.add_yaml_attributes,
+                description="Add multiple attributes under a parent key in a YAML file. Attributes should be provided as YAML formatted string",
+                args_schema=AddAttributesInput
             )
         ]

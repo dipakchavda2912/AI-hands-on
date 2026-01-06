@@ -105,3 +105,69 @@ class YamlUtils:
             d = d[key]
 
         return d
+
+    @staticmethod
+    def ensure_key_is_dict(data: dict, key_path: str) -> Tuple[bool, str]:
+        """Ensure a key exists and is a dictionary, creating or converting it if needed.
+
+        Args:
+            data: The dictionary to modify
+            key_path: Dot-separated path (e.g., 'custom' or 'parent.custom')
+
+        Returns:
+            Tuple of (success, message)
+        """
+        keys = key_path.split('.')
+        d = data
+
+        # Navigate to parent of target key
+        for key in keys[:-1]:
+            if key not in d:
+                d[key] = {}
+            elif not isinstance(d[key], dict):
+                return False, f"Key '{key}' in path exists but is not a dictionary"
+            d = d[key]
+
+        final_key = keys[-1]
+
+        # Check if key exists and what type it is
+        if final_key not in d:
+            d[final_key] = {}
+            return True, f"Created new dictionary at '{key_path}'"
+        elif isinstance(d[final_key], dict):
+            return True, f"Key '{key_path}' already exists as a dictionary"
+        else:
+            # Convert to dict (e.g., from string "{}" or empty value)
+            d[final_key] = {}
+            return True, f"Converted '{key_path}' from {type(d[final_key]).__name__} to dictionary"
+
+    @staticmethod
+    def add_multiple_attributes(data: dict, parent_key: str, attributes: dict) -> Tuple[int, list]:
+        """Add multiple attributes under a parent key.
+
+        Args:
+            data: The dictionary to modify
+            parent_key: The parent key path (e.g., 'custom')
+            attributes: Dictionary of attributes to add
+
+        Returns:
+            Tuple of (count_added, list_of_added_keys)
+        """
+        # Ensure parent key is a dictionary
+        success, msg = YamlUtils.ensure_key_is_dict(data, parent_key)
+        if not success:
+            return 0, []
+
+        # Get the parent dict
+        parent_dict = YamlUtils.get_nested_value(data, parent_key)
+        if parent_dict is None:
+            parent_dict = {}
+            YamlUtils.set_nested_value(data, parent_key, parent_dict)
+
+        # Add all attributes
+        added_keys = []
+        for key, value in attributes.items():
+            parent_dict[key] = value
+            added_keys.append(key)
+
+        return len(added_keys), added_keys
