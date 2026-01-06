@@ -63,7 +63,7 @@ class Main():
 
             f"""Add pAppName: abcd attribute under the `custom` key in the {clone_path}serverless.yml file.""",
 
-            f"""Add pCostcenter: 1010011:1111111 attribute under the `custom` key in the {clone_path}serverless.yml file.""",
+            f"""Add pCostCenter: 1010011:1111111 attribute under the `custom` key in the {clone_path}serverless.yml file.""",
 
             f"""Add pEnvironment attribute under the `custom` key in the {clone_path}serverless.yml file.
             The value should be a serverless framework variable reference: ${{opt:stage, self:provider.stage}}
@@ -78,11 +78,19 @@ class Main():
             Use the pattern '<env>-bucket: <bucket-name>' for each environment (e.g., dev-bucket: dev).
             Value should not use quotes.""",
 
-            f"""
-            There is an attribute name <env>-datadog-api-arn under the `custom` key in the {clone_path}serverless.yml file.
+            f"""Add Datadog API Key Secret Manager ARN mappings under the 'custom' key in the {clone_path}serverless.yml file.
             beginning: '# Datadog API Key Secret Manager ARN per environment.'
-            For environments dev, qa, uat, uatdr, prod, dr use qualified secretmanager arn as per environment.
-            """,
+            For each environment (dev, qa, uat, uatdr, prod, dr), add a literal AWS Secrets Manager ARN string.
+
+            Use the pattern: <env>-datadog-api-arn: arn:aws:secretsmanager:<region>:<account-id>:secret:<env>-datadog-api-key
+
+            Examples:
+            - dev-datadog-api-arn: arn:aws:secretsmanager:us-west-2:1234567890:secret:dev-datadog-api-key
+            - prod-datadog-api-arn: arn:aws:secretsmanager:us-east-1:0987654321:secret:prod-datadog-api-key
+
+            Use the appropriate region and account ID for each environment based on the previously defined mappings.
+            Values should be literal ARN strings WITHOUT quotes.
+            Update the {clone_path}serverless.yml file with these mappings.""",
 
             f"""
             Add a nested attribute 'datadog' under the `custom` key in the {clone_path}serverless.yml file.
@@ -93,8 +101,7 @@ class Main():
             The apiKeySecretArn value should be: ${{self:custom.${{self:custom.pEnvironment}}-datadog-api-arn}}
             This dynamically resolves to the correct environment's datadog ARN by:
             - First resolving pEnvironment to get current environment (dev/prod/etc)
-            - Then using that to reference the corresponding <env>-datadog-api-arn attribute
-
+            - Then using that to reference the corresponding <env>-datadog-api-arn attribute.
             Values should NOT use quotes.
             """,
         ]
