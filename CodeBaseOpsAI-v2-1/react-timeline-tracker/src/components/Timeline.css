@@ -98,9 +98,13 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: #48bb78;
-  transition: width 0.5s ease;
+  background: linear-gradient(to right, #48bb78 0%, #48bb78 80%, #f6ad55 100%);
+  transition: width 0.5s ease, background 0.5s ease;
   border-radius: 3px;
+}
+
+.timeline-line-progress.all-completed {
+  background: #48bb78;
 }
 
 /* Milestone */
@@ -135,17 +139,18 @@
   color: white;
 }
 
-.milestone.completed .milestone-circle,
-.milestone.active .milestone-circle {
+.milestone.completed .milestone-circle {
   background: #48bb78;
   box-shadow: 0 2px 12px rgba(72, 187, 120, 0.4);
 }
 
 .milestone.active .milestone-circle {
-  animation: pulse-green 2s ease-in-out infinite;
+  background: #f6ad55;
+  box-shadow: 0 2px 12px rgba(246, 173, 85, 0.4);
+  animation: pulse-yellow 2s ease-in-out infinite;
 }
 
-@keyframes pulse-green {
+@keyframes pulse-yellow {
 
   0%,
   100% {

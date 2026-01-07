@@ -5,7 +5,6 @@ const Timeline = () => {
   const [currentTaskIndex, setCurrentTaskIndex] = useState(-1);
   const [isRunning, setIsRunning] = useState(false);
   const [subtaskStatuses, setSubtaskStatuses] = useState({});
-  const [completedTasks, setCompletedTasks] = useState(0);
 
   const tasks = [
     {
@@ -101,7 +100,6 @@ const Timeline = () => {
     setIsRunning(true);
     setCurrentTaskIndex(-1);
     setSubtaskStatuses({});
-    setCompletedTasks(0);
 
     for (let taskIdx = 0; taskIdx < tasks.length; taskIdx++) {
       setCurrentTaskIndex(taskIdx);
@@ -122,8 +120,6 @@ const Timeline = () => {
         // Set completed
         setSubtaskStatuses(prev => ({ ...prev, [key]: 'completed' }));
       }
-
-      setCompletedTasks(taskIdx + 1);
     }
 
     setCurrentTaskIndex(tasks.length);
@@ -179,7 +175,7 @@ const Timeline = () => {
           {/* Progress Line */}
           <div className="timeline-line">
             <div
-              className="timeline-line-progress"
+              className={`timeline-line-progress ${currentTaskIndex === tasks.length ? 'all-completed' : ''}`}
               style={{ width: getProgressLineWidth() }}
             />
           </div>
