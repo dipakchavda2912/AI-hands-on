@@ -3,6 +3,7 @@ import './Timeline.css';
 
 const Timeline = () => {
   const [currentTaskIndex, setCurrentTaskIndex] = useState(-1);
+  const [selectedTaskIndex, setSelectedTaskIndex] = useState(-1);
   const [isRunning, setIsRunning] = useState(false);
   const [subtaskStatuses, setSubtaskStatuses] = useState({});
 
@@ -99,10 +100,12 @@ const Timeline = () => {
   const startExecution = async () => {
     setIsRunning(true);
     setCurrentTaskIndex(-1);
+    setSelectedTaskIndex(-1);
     setSubtaskStatuses({});
 
     for (let taskIdx = 0; taskIdx < tasks.length; taskIdx++) {
       setCurrentTaskIndex(taskIdx);
+      setSelectedTaskIndex(taskIdx);
 
       for (let subtaskIdx = 0; subtaskIdx < tasks[taskIdx].subtasks.length; subtaskIdx++) {
         const key = `${taskIdx}-${subtaskIdx}`;
@@ -123,7 +126,16 @@ const Timeline = () => {
     }
 
     setCurrentTaskIndex(tasks.length);
+    setSelectedTaskIndex(-1);
     setIsRunning(false);
+  };
+
+  const handleMilestoneClick = (index) => {
+    // Only allow selection of completed or active tasks, not pending tasks
+    const status = getStatusClass(index);
+    if (status !== 'pending') {
+      setSelectedTaskIndex(index);
+    }
   };
 
   const getSubtaskStatus = (taskIdx, subtaskIdx) => {
@@ -182,7 +194,12 @@ const Timeline = () => {
 
           {/* Milestones */}
           {tasks.map((task, index) => (
-            <div key={index} className={`milestone ${getStatusClass(index)}`}>
+            <div
+              key={index}
+              className={`milestone ${getStatusClass(index)} ${selectedTaskIndex === index && getStatusClass(index) !== 'active' ? 'selected' : ''}`}
+              onClick={() => handleMilestoneClick(index)}
+              style={{ cursor: 'pointer' }}
+            >
               <div className="milestone-date">{task.date}</div>
               <div className="milestone-circle">
                 {getStatusClass(index) === 'completed' || getStatusClass(index) === 'active' ? '✓' : '✓'}
@@ -219,14 +236,14 @@ const Timeline = () => {
       </div>
 
       {/* Subtasks Section */}
-      {currentTaskIndex >= 0 && currentTaskIndex < tasks.length && (
+      {selectedTaskIndex >= 0 && selectedTaskIndex < tasks.length && (
         <div className="subtasks-container">
           <h3 className="subtasks-header">
-            📋 {tasks[currentTaskIndex].name} - Subtasks
+            📋 {tasks[selectedTaskIndex].name} - Subtasks
           </h3>
 
-          {tasks[currentTaskIndex].subtasks.map((subtask, index) => {
-            const status = getSubtaskStatus(currentTaskIndex, index);
+          {tasks[selectedTaskIndex].subtasks.map((subtask, index) => {
+            const status = getSubtaskStatus(selectedTaskIndex, index);
             const badge = getStatusBadge(status);
 
             return (
