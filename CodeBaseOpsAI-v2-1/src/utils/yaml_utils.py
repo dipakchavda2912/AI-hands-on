@@ -171,3 +171,20 @@ class YamlUtils:
             added_keys.append(key)
 
         return len(added_keys), added_keys
+
+    @staticmethod
+    def add_yaml_formatted_array_list(data: dict, parent_key: str, array_list: list) -> Tuple[int, list]:
+        """Add a YAML-formatted array list under a parent key.
+
+        Args:
+            data: The dictionary to modify
+            parent_key: The parent key path (e.g., 'plugins')
+            array_list: List of items to add
+        Returns:
+            Tuple of (count_added, list_of_added_items)
+        """
+        # Set the parent key to the array list directly
+        old_value, new_value = YamlUtils.set_nested_value(
+            data, parent_key, array_list)
+
+        return len(array_list), array_list

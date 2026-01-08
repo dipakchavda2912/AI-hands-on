@@ -32,10 +32,17 @@ class ServerlessPluginsTagInstructions:
         # Extract plugin names from the list of dictionaries
         plugin_names = [pkg["name"] for pkg in (self.serverless_plugins or [])]
 
+        # Format plugins in YAML flow-style (inline array) format
+        plugins_array = ", ".join(plugin_names)
+
         return f"""
-            Add the following values for plugins attributes
-            of the {self.clone_path}serverless.yml file.
-            plugins:
-            Attribute should be added as a list by following serverless syntax and include the following plugins:
-            {', '.join(plugin_names)}
-            """
+Update the {self.clone_path}serverless.yml file. 
+
+Set the plugins key to this exact value (copy exactly as shown below):
+
+plugins: [{plugins_array}]
+
+This must be written as a bare YAML array (no quotation marks).
+The opening bracket [ must come immediately after the colon and space.
+The closing bracket ] must not be followed by any quotes.
+"""

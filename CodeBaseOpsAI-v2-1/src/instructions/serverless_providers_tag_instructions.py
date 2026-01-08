@@ -32,7 +32,7 @@ class ServerlessProvidersTagInstructions:
         return f"""
             Add the following attributes in the provider section of the {self.clone_path}serverless.yml file. If the provider section is not present, please add it. All the below variables should use serverless syntax for referencing custom attributes. Don't paste the actual values in the stackTags - use dynamic references instead.
             stackTags:
-            service name should reference the service name from the serverless.yml file
+            service should reference the service name from the serverless.yml file
             Name should be a combination of pOwner, pEnvironment, and service name separated by hyphens
             Vertical should reference the pVertical value from custom section
             Env should reference the pEnvironment value from custom section

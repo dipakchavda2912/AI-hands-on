@@ -5,7 +5,8 @@ from ..schemas.yaml_schemas import (
     UpdateYamlInput,
     ReadYamlInput,
     EnsureDictKeyInput,
-    AddAttributesInput
+    AddAttributesInput,
+    AddArrayListInput
 )
 
 
@@ -129,6 +130,43 @@ class YamlTools:
         except Exception as e:
             return f"Error adding attributes: {str(e)}"
 
+    def add_yaml_array_list(self, yaml_file_path: str, parent_key: str, array_items_yaml: str) -> str:
+        """Add an array list under a key in a YAML file.
+
+        Args:
+            yaml_file_path: Path to the YAML file
+            parent_key: Key to add the array under (e.g., 'plugins')
+            array_items_yaml: YAML formatted string of array items
+
+        Returns:
+            String with operation status
+        """
+        try:
+            if not YamlUtils.file_exists(yaml_file_path):
+                return f"Error: File '{yaml_file_path}' does not exist."
+
+            # Parse the main file
+            data = YamlUtils.parse_yaml(yaml_file_path)
+
+            # Parse the array items YAML string
+            array_items = yaml.safe_load(array_items_yaml)
+            if not isinstance(array_items, list):
+                return "Error: array_items_yaml must be a valid YAML list"
+
+            # Add array list
+            count, added_items = YamlUtils.add_yaml_formatted_array_list(
+                data, parent_key, array_items)
+
+            # Write back
+            YamlUtils.write_yaml(yaml_file_path, data)
+
+            return f"Successfully added {count} items to '{parent_key}': {', '.join(str(item) for item in added_items)}"
+
+        except yaml.YAMLError as e:
+            return f"Error parsing array YAML: {str(e)}"
+        except Exception as e:
+            return f"Error adding array list: {str(e)}"
+
     def get_tools(self) -> list[StructuredTool]:
         """Get list of all available tools."""
         return [
@@ -155,5 +193,11 @@ class YamlTools:
                 func=self.add_yaml_attributes,
                 description="Add multiple attributes under a parent key in a YAML file. Attributes should be provided as YAML formatted string",
                 args_schema=AddAttributesInput
+            ),
+            StructuredTool(
+                name="add_yaml_array_list",
+                func=self.add_yaml_array_list,
+                description="Add an array list under a key in a YAML file. Array items should be provided as YAML formatted list (e.g., '[item1, item2]' or '- item1\\n- item2')",
+                args_schema=AddArrayListInput
             )
         ]

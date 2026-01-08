@@ -40,12 +40,12 @@ class InstructionService:
         """
         instructions = []
 
-        # Node.js package instructions
-        nodejs = NodeJsPackagesInstructions(
-            clone_path=self.clone_path,
-            packages=self.serverless_plugins
-        )
-        instructions.extend(nodejs.get_instructions())
+        # # Node.js package instructions
+        # nodejs = NodeJsPackagesInstructions(
+        #     clone_path=self.clone_path,
+        #     packages=self.serverless_plugins
+        # )
+        # instructions.extend(nodejs.get_instructions())
 
         # GitHub operations - keyword arguments, order doesn't matter
         github = GithubInstructions(
