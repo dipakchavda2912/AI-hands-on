@@ -1,32 +1,10 @@
 """
-Utility functions for generating agent instructions
+Serverless custom attributes instructions
 """
 
-from typing import List
 
-
-class InstructionUtils:
-    """Utility class for creating agent instructions"""
-
-    @staticmethod
-    def get_read_repository_instruction(repository: str, branch: str) -> str:
-        """Get instruction to read a repository"""
-        return f"Read the repository '{repository}' on branch '{branch}'."
-
-    @staticmethod
-    def get_clone_repository_instruction(repository: str, clone_path: str) -> str:
-        """Get instruction to clone a repository"""
-        return f"Clone the repository '{repository}' to local filesystem at {clone_path}"
-
-    @staticmethod
-    def get_checkout_branch_instruction(clone_path: str, branch: str) -> str:
-        """Get instruction to checkout a branch"""
-        return f"Checkout the '{branch}' branch in the cloned repository at {clone_path}."
-
-    @staticmethod
-    def get_list_files_instruction(clone_path: str, branch: str) -> str:
-        """Get instruction to list all files in the repository"""
-        return f"List all the files in the cloned repository at {clone_path} on branch {branch}"
+class ServerlessCustomInstructions:
+    """Instructions for serverless.yml custom section attributes"""
 
     @staticmethod
     def get_load_serverless_yml_instruction(clone_path: str) -> str:
@@ -177,29 +155,4 @@ class InstructionUtils:
             Use the pattern '<env>-env: <environment-name>' for each environment (e.g., dev-env: dev).
             Values should not use quotes.
             Update the {clone_path}serverless.yml file with these mappings.
-            """
-
-    @staticmethod
-    def get_add_stack_tags_instruction(clone_path: str) -> str:
-        """Get instruction to add stack tags in provider section"""
-        return f"""
-            Add the following attributes in the provider section of the {clone_path}serverless.yml file. If the provider section is not present, please add it. All the below variables should use serverless syntax for referencing custom attributes. Don't paste the actual values in the stackTags - use dynamic references instead.
-            stackTags:
-            service name should reference the service name from the serverless.yml file
-            Name should be a combination of pOwner, pEnvironment, and service name separated by hyphens
-            Vertical should reference the pVertical value from custom section
-            Env should reference the pEnvironment value from custom section
-            CostCenter should reference the pCostCenter value from custom section
-            version should reference the version attribute from package.json file
-            application should be Admin console
-            fdca:team should reference the fdca-team value from custom section
-            fdca:app-id should reference the fdca-app-id value from custom section
-            fdca:app-name should reference the fdca-app-name value from custom section
-            fdca:created-by-email should reference the fdca-created-by-email value from custom section
-            fdca:git_url should reference the fdca-git-url value from custom section
-            fdca:git_revision should reference the branch-name attribute from custom section by dynamically constructing the key name using the current pEnvironment value with the pattern pEnvironment-branch-name
-            fdca:timestamp should reference the fdca-timestamp value from custom section
-            fdca:environment should reference the env attribute from custom section by dynamically constructing the key name using the current pEnvironment value with the pattern pEnvironment-env
-            fdca:blueprint_sources should reference the fdca-blueprint-sources value from custom section
-            map-migrated: abc-migrate-tag-value
             """
