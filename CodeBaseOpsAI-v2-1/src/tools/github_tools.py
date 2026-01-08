@@ -11,7 +11,7 @@ from ..schemas.github_schemas import (
 
 
 class GithubTools:
-    def __init__(self, github_token: str = None) -> None:
+    def __init__(self, github_token: str | None = None) -> None:
         """Initialize GitHub tools."""
         self.github_token = github_token or os.getenv("GITHUB_TOKEN")
         self.github = Github(self.github_token) if self.github_token else None

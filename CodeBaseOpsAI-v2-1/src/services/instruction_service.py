@@ -4,8 +4,10 @@ Service for managing agent instructions
 
 from typing import List
 from src.instructions.github_instructions import GithubInstructions
-from src.instructions.serverless_custom_instructions import ServerlessCustomInstructions
-from src.instructions.serverless_provider_instructions import ServerlessProviderInstructions
+from src.instructions.serverless_custom_tag_instructions import ServerlessCustomTagInstructions
+from src.instructions.serverless_providers_tag_instructions import ServerlessProvidersTagInstructions
+from src.instructions.nodejs_packages_instructions import NodeJsPackagesInstructions
+from src.instructions.serverless_plugins_tag_instructions import ServerlessPluginsTagInstructions
 
 
 class InstructionService:
@@ -23,6 +25,11 @@ class InstructionService:
         self.repository = repository
         self.clone_path = clone_path
         self.branch = branch
+        self.serverless_plugins = [
+            {"name": "serverless-webpack", "is_dev": False},
+            {"name": "serverless-plugin-datadog", "is_dev": False},
+            {"name": "serverless-prune-plugin", "is_dev": False},
+        ]
 
     def get_all_instructions(self) -> List[str]:
         """
@@ -31,124 +38,40 @@ class InstructionService:
         Returns:
             List of instruction strings
         """
-        instruction_groups = [
-            self.get_repository_operations_instructions(),
-            self.get_serverless_yml_preparation_instructions(),
-            self.get_aws_configuration_instructions(),
-            self.get_custom_attributes_instructions(),
-            self.get_bucket_and_datadog_instructions(),
-            self.get_fdca_and_environment_mappings_instructions(),
-            self.get_provider_stack_tags_instructions(),
-        ]
+        instructions = []
 
-        # Flatten the list of instruction groups
-        instructions = [
-            instruction
-            for group in instruction_groups
-            for instruction in group
-        ]
+        # Node.js package instructions
+        nodejs = NodeJsPackagesInstructions(
+            clone_path=self.clone_path,
+            packages=self.serverless_plugins
+        )
+        instructions.extend(nodejs.get_instructions())
+
+        # GitHub operations - keyword arguments, order doesn't matter
+        github = GithubInstructions(
+            repository=self.repository,
+            clone_path=self.clone_path,
+            branch=self.branch
+        )
+        instructions.extend(github.get_instructions())
+
+        # Serverless custom section configuration
+        serverless_custom = ServerlessCustomTagInstructions(
+            clone_path=self.clone_path
+        )
+        instructions.extend(serverless_custom.get_instructions())
+
+        # Serverless provider section configuration
+        serverless_provider = ServerlessProvidersTagInstructions(
+            clone_path=self.clone_path
+        )
+        instructions.extend(serverless_provider.get_instructions())
+
+        # Serverless plugins section configuration
+        serverless_plugins = ServerlessPluginsTagInstructions(
+            clone_path=self.clone_path,
+            serverless_plugins=self.serverless_plugins
+        )
+        instructions.extend(serverless_plugins.get_instructions())
 
         return instructions
-
-    def get_repository_operations_instructions(self) -> List[str]:
-        """Get only repository operation instructions"""
-        return [
-            GithubInstructions.get_read_repository_instruction(
-                self.repository, self.branch),
-            GithubInstructions.get_clone_repository_instruction(
-                self.repository, self.clone_path),
-            GithubInstructions.get_checkout_branch_instruction(
-                self.clone_path, self.branch),
-            GithubInstructions.get_list_files_instruction(
-                self.clone_path, self.branch),
-        ]
-
-    def get_serverless_yml_preparation_instructions(self) -> List[str]:
-        """Get serverless.yml preparation instructions"""
-        return [
-            ServerlessCustomInstructions.get_load_serverless_yml_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_create_custom_key_instruction(
-                self.clone_path),
-        ]
-
-    def get_aws_configuration_instructions(self) -> List[str]:
-        """Get AWS configuration instructions"""
-        return [
-            ServerlessCustomInstructions.get_aws_account_id_mappings_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_aws_region_mappings_instruction(
-                self.clone_path),
-        ]
-
-    def get_custom_attributes_instructions(self) -> List[str]:
-        """Get custom attributes instructions"""
-        return [
-            ServerlessCustomInstructions.get_add_powner_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_add_pvertical_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_add_paccountid_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_add_pappname_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_add_pcostcenter_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_add_penvironment_instruction(
-                self.clone_path),
-        ]
-
-    def get_bucket_and_datadog_instructions(self) -> List[str]:
-        """Get bucket and Datadog configuration instructions"""
-        return [
-            ServerlessCustomInstructions.get_add_bucket_mappings_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_add_datadog_arn_mappings_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_add_datadog_config_instruction(
-                self.clone_path),
-        ]
-
-    def get_fdca_and_environment_mappings_instructions(self) -> List[str]:
-        """Get FDCA tags and environment mapping instructions"""
-        return [
-            ServerlessCustomInstructions.get_add_fdca_tags_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_add_branch_name_mappings_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_add_environment_name_mappings_instruction(
-                self.clone_path),
-        ]
-
-    def get_provider_stack_tags_instructions(self) -> List[str]:
-        """Get provider stack tags instructions"""
-        return [
-            ServerlessProviderInstructions.get_add_stack_tags_instruction(
-                self.clone_path),
-        ]
-
-    def get_serverless_config_instructions(self) -> List[str]:
-        """Get serverless configuration instructions (legacy method for backward compatibility)"""
-        return [
-            ServerlessCustomInstructions.get_load_serverless_yml_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_create_custom_key_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_aws_account_id_mappings_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_aws_region_mappings_instruction(
-                self.clone_path),
-        ]
-
-    def get_tagging_instructions(self) -> List[str]:
-        """Get tagging and environment mapping instructions (legacy method for backward compatibility)"""
-        return [
-            ServerlessCustomInstructions.get_add_fdca_tags_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_add_branch_name_mappings_instruction(
-                self.clone_path),
-            ServerlessCustomInstructions.get_add_environment_name_mappings_instruction(
-                self.clone_path),
-            ServerlessProviderInstructions.get_add_stack_tags_instruction(
-                self.clone_path),
-        ]

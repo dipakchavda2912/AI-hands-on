@@ -29,6 +29,7 @@ class Main():
         parent_folder_name = f"base-serverless-{ExecutionUtils.get_current_datetime_string()}"
         clone_path = f"/tmp/{parent_folder_name}/base-serverless-clone/"
         branch = "develop"
+        node_lts_version = '22.11.0'
 
         # Use instruction service to get all instructions
         instruction_service = InstructionService(

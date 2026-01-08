@@ -5,16 +5,14 @@ Serverless custom attributes instructions
 from typing import List, Optional
 
 
-class ServerlessCustomInstructions:
+class ServerlessCustomTagInstructions:
     """Instructions for serverless.yml custom section attributes"""
 
-    def __init__(self, *, clone_path: Optional[str] = None):
-        """Initialize Serverless custom instructions with configuration
-
-        Args:
-            clone_path: Local path where repository is cloned
-        """
+    def __init__(self, *, clone_path: Optional[str] = None, package_name: Optional[str] = None, is_dev: bool = False):
+        """Initialize with configuration"""
         self.clone_path = clone_path
+        self.package_name = package_name
+        self.is_dev = is_dev
 
     def get_instructions(self) -> List[str]:
         """Get all serverless custom section instructions
