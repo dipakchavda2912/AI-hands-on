@@ -26,7 +26,8 @@ class Main():
 
     def get_query(self) -> List[str]:
         source_repository = "dipakchavda2912/base-serverless"
-        clone_path = "/tmp/base-serverless-clone/"
+        parent_folder_name = f"base-serverless-{ExecutionUtils.get_current_datetime_string()}"
+        clone_path = f"/tmp/{parent_folder_name}/base-serverless-clone/"
         branch = "develop"
 
         # Use instruction service to get all instructions

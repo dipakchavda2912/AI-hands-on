@@ -9,6 +9,16 @@ class ExecutionUtils:
     """Utilities for managing agent execution flow"""
 
     @staticmethod
+    def get_current_datetime_string() -> str:
+        """Get current date and time as a formatted string.
+
+        Returns:
+            String in format YYYYMMDD-HHMMSS
+        """
+        from datetime import datetime
+        return datetime.now().strftime("%Y%m%d-%H%M%S")
+
+    @staticmethod
     def initialize_execution_state() -> Dict[str, int]:
         """Initialize execution state tracking dictionary.
 
