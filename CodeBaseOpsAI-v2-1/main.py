@@ -35,7 +35,8 @@ class Main():
         instruction_service = InstructionService(
             repository=source_repository,
             clone_path=clone_path,
-            branch=branch
+            branch=branch,
+            node_lts_version=node_lts_version
         )
 
         return instruction_service.get_all_instructions()

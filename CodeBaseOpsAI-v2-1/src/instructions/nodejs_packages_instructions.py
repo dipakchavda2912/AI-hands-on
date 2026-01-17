@@ -8,18 +8,21 @@ from typing import List, Optional
 class NodeJsPackagesInstructions:
     """Instructions for Node.js package.json operations"""
 
-    def __init__(self, *, clone_path: Optional[str] = None, packages: Optional[List[dict[str, bool | str]]] = None, is_dev: bool = False, npm_lookup: bool = True):
+    def __init__(self, *, clone_path: Optional[str] = None, packages: Optional[List[dict[str, bool | str]]] = None, is_dev: bool = False, npm_lookup: bool = True, node_lts_version: str = "18.0.0"):
         """Initialize with configuration
 
         Args:
             clone_path: Local path where repository is cloned
             packages: List of package dictionaries with 'name' and 'is_dev' keys
             is_dev: Default value for is_dev if not specified in package dict
+            npm_lookup: Whether to lookup package versions from npm registry
+            node_lts_version: Node.js LTS version to use for package compatibility checks
         """
         self.clone_path = clone_path
         self.packages = packages or []
         self.is_dev = is_dev
         self.npm_lookup = npm_lookup
+        self.node_lts_version = node_lts_version
 
     def get_instructions(self) -> List[str]:
         """Get all Node.js package instructions
@@ -48,7 +51,7 @@ class NodeJsPackagesInstructions:
             Instruction string for adding the package
         """
         dep_type = "devDependencies" if is_dev else "dependencies"
-        return f"""Add '{package_name}' to {dep_type} in {self.clone_path}package.json file. Use semantic versioning format (e.g., ^1.2.3 with major.minor.patch)."""
+        return f"""Before adding the package, detect and validate the currently installed Node.js version from .nvmrc file, 'node -v' command, or package.json engines.node field. The target Node.js LTS version for this project is {self.node_lts_version}. Then add '{package_name}' to {dep_type} in {self.clone_path}package.json file. Use the latest version that is compatible with Node.js {self.node_lts_version} (or the detected version) and has no known vulnerabilities. The version must be specified in semantic versioning format as major.minor.patch (example: "^2.5.1" or "~3.0.4")."""
 
     def add_packages(self) -> List[str]:
         """Get instructions to install multiple dependencies
@@ -89,8 +92,8 @@ class NodeJsPackagesInstructions:
             Instruction string for updating the package
         """
         if version:
-            return f"""Update '{package_name}' to version '{version}' in {self.clone_path}package.json file. Use semantic versioning format (major.minor.patch)."""
-        return f"""Update '{package_name}' to the latest compatible and secure version in {self.clone_path}package.json file. Use semantic versioning format (e.g., ^1.2.3 with major.minor.patch)."""
+            return f"""Before updating the package, detect and validate the currently installed Node.js version from .nvmrc file, 'node -v' command, or package.json engines.node field. The target Node.js LTS version for this project is {self.node_lts_version}. Then update '{package_name}' to version '{version}' in {self.clone_path}package.json file. Verify that this version is compatible with Node.js {self.node_lts_version} (or the detected version) and has no known security vulnerabilities. Ensure the version is specified in semantic versioning format as major.minor.patch (example: "^2.5.1" or "~3.0.4")."""
+        return f"""Before updating the package, detect and validate the currently installed Node.js version from .nvmrc file, 'node -v' command, or package.json engines.node field. The target Node.js LTS version for this project is {self.node_lts_version}. Then update '{package_name}' in {self.clone_path}package.json file to the latest available version that is compatible with Node.js {self.node_lts_version} (or the detected version) and has no known security vulnerabilities. The version must be specified in semantic versioning format as major.minor.patch (example: "^2.5.1" or "~3.0.4")."""
 
     def update_packages_list(self, package_names: List[str]) -> List[str]:
         """Get instructions to update multiple specific packages
@@ -117,7 +120,7 @@ class NodeJsPackagesInstructions:
             Instruction string for updating all packages
         """
         lock_msg = " while maintaining current major versions" if lock_major else ""
-        return f"""Update all npm packages in {self.clone_path}package.json to their latest compatible and non-vulnerable versions{lock_msg}."""
+        return f"""First, detect and validate the currently installed Node.js version from .nvmrc file, 'node -v' command, or package.json engines.node field. The target Node.js LTS version for this project is {self.node_lts_version}. Then update all npm packages in {self.clone_path}package.json to their latest available versions that are compatible with Node.js {self.node_lts_version} (or the detected version) and have no known security vulnerabilities. All versions must be specified in semantic versioning format as major.minor.patch (example: "^2.5.1" or "~3.0.4"){lock_msg}."""
 
     def remove_package(self, package_name: str) -> str:
         """Get instruction to remove a package
@@ -154,7 +157,7 @@ class NodeJsPackagesInstructions:
         Returns:
             Instruction string for analyzing packages
         """
-        return f"""Analyze all npm packages in {self.clone_path}package.json and report which packages can be safely updated to newer versions."""
+        return f"""First, detect the currently installed Node.js version from .nvmrc file, 'node -v' command, or package.json engines.node field. The target Node.js LTS version for this project is {self.node_lts_version}. Then analyze all npm packages in {self.clone_path}package.json and report which packages can be safely updated to newer versions. For each package that can be updated, provide the recommended version in semantic versioning format (major.minor.patch) ensuring compatibility with Node.js {self.node_lts_version} (or the detected version) and no known vulnerabilities."""
 
     def audit_packages(self, min_severity: Optional[str] = None) -> str:
         """Get instruction to audit packages for vulnerabilities

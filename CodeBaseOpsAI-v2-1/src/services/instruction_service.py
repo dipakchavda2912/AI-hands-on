@@ -13,7 +13,7 @@ from src.instructions.serverless_plugins_tag_instructions import ServerlessPlugi
 class InstructionService:
     """Service class for retrieving agent instructions"""
 
-    def __init__(self, repository: str, clone_path: str, branch: str):
+    def __init__(self, repository: str, clone_path: str, branch: str, node_lts_version: str = "18.0.0"):
         """
         Initialize instruction service
 
@@ -21,10 +21,12 @@ class InstructionService:
             repository: GitHub repository identifier
             clone_path: Local path where repository will be cloned
             branch: Branch name to work with
+            node_lts_version: Node.js LTS version to use for package compatibility checks
         """
         self.repository = repository
         self.clone_path = clone_path
         self.branch = branch
+        self.node_lts_version = node_lts_version
         self.serverless_plugins = [
             {"name": "serverless-webpack", "is_dev": False, "npm_lookup": True},
             {"name": "serverless-plugin-datadog",
@@ -115,7 +117,8 @@ class InstructionService:
         # Node.js package instructions
         nodejs = NodeJsPackagesInstructions(
             clone_path=self.clone_path,
-            packages=self.node_packages
+            packages=self.node_packages,
+            node_lts_version=self.node_lts_version
         )
         instructions.extend(nodejs.get_instructions())
 
