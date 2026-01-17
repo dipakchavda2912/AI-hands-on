@@ -120,7 +120,7 @@ class NodeJsPackagesInstructions:
             Instruction string for updating all packages
         """
         lock_msg = " while maintaining current major versions" if lock_major else ""
-        return f"""First, detect and validate the currently installed Node.js version from .nvmrc file, 'node -v' command, or package.json engines.node field. The target Node.js LTS version for this project is {self.node_lts_version}. Then update all npm packages in {self.clone_path}package.json to their latest available versions that are compatible with Node.js {self.node_lts_version} (or the detected version) and have no known security vulnerabilities. All versions must be specified in semantic versioning format as major.minor.patch (example: "^2.5.1" or "~3.0.4"){lock_msg}."""
+        return f"""The target Node.js LTS version for this project is {self.node_lts_version}. Then update all npm packages in {self.clone_path}package.json to their latest available versions that are compatible with Node.js {self.node_lts_version} (or the detected version) and have no known security vulnerabilities. All versions must be specified in semantic versioning format as major.minor.patch (example: "^2.5.1" or "~3.0.4"){lock_msg}."""
 
     def remove_package(self, package_name: str) -> str:
         """Get instruction to remove a package
