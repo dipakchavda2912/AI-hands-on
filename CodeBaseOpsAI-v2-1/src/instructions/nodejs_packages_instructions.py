@@ -48,7 +48,7 @@ class NodeJsPackagesInstructions:
             Instruction string for adding the package
         """
         dep_type = "devDependencies" if is_dev else "dependencies"
-        return f"""Add '{package_name}' to {dep_type} in {self.clone_path}package.json file."""
+        return f"""Add '{package_name}' to {dep_type} in {self.clone_path}package.json file. Use semantic versioning format (e.g., ^1.2.3 with major.minor.patch)."""
 
     def add_packages(self) -> List[str]:
         """Get instructions to install multiple dependencies
@@ -89,8 +89,8 @@ class NodeJsPackagesInstructions:
             Instruction string for updating the package
         """
         if version:
-            return f"""Update '{package_name}' to version '{version}' in {self.clone_path}package.json file."""
-        return f"""Update '{package_name}' to the latest compatible and secure version in {self.clone_path}package.json file."""
+            return f"""Update '{package_name}' to version '{version}' in {self.clone_path}package.json file. Use semantic versioning format (major.minor.patch)."""
+        return f"""Update '{package_name}' to the latest compatible and secure version in {self.clone_path}package.json file. Use semantic versioning format (e.g., ^1.2.3 with major.minor.patch)."""
 
     def update_packages_list(self, package_names: List[str]) -> List[str]:
         """Get instructions to update multiple specific packages
