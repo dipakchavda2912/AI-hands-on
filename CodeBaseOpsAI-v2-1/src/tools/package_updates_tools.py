@@ -24,14 +24,16 @@ from ..schemas.package_schemas import (
 class PackageUpdatesTools:
     """A collection of npm package update tools for the agent to use."""
 
-    def __init__(self, npm_registry: str | None = None) -> None:
+    def __init__(self, node_lts_version: str, npm_registry: str | None = None) -> None:
         """Initialize package updates tools.
 
         Args:
+            node_lts_version: Node.js LTS version for package compatibility checks
             npm_registry: NPM registry URL (default: from env or https://registry.npmjs.org)
         """
         self.npm_registry = npm_registry or os.getenv(
             "NPM_REGISTRY", "https://registry.npmjs.org")
+        self.node_lts_version = node_lts_version
 
     def _evaluate_package_updates(
         self,
@@ -52,7 +54,9 @@ class PackageUpdatesTools:
             Tuple of (proposed_updates_dict, report_lines_list, node_version)
         """
         pkg = JsonUtils.read_json(package_path)
-        node_ver = PackageUpdatesUtils.detect_node_version(pkg)
+        # Use instance node_lts_version or detect from environment
+        node_ver = self.node_lts_version if self.node_lts_version is not None else PackageUpdatesUtils.detect_node_version(
+            pkg)
         deps = PackageUpdatesUtils.load_deps(pkg)
 
         report_lines = []
@@ -120,6 +124,10 @@ class PackageUpdatesTools:
                 package_path, lock_major, verbose=True, npm_lookup=npm_lookup
             )
 
+            # Prepend Node.js version info
+            report_lines.insert(
+                0, f"Target Node.js LTS: {self.node_lts_version}")
+
             if not proposed:
                 report_lines.append("\nNo updates proposed.")
             else:
@@ -162,8 +170,10 @@ class PackageUpdatesTools:
                 package_path, lock_major, verbose=True, npm_lookup=npm_lookup
             )
 
-            # Prepend node version info
-            report_lines.insert(0, f"Detected Node.js: {node_ver}")
+            # Prepend version info
+            report_lines.insert(
+                0, f"Target Node.js LTS: {self.node_lts_version}")
+            report_lines.insert(1, f"Detected Node.js: {node_ver}")
 
             if not proposed:
                 return "No updates proposed."
@@ -250,7 +260,8 @@ class PackageUpdatesTools:
         dev: bool = False,
         install: bool = False,
         manager: str = "npm",
-        npm_lookup: bool = True
+        npm_lookup: bool = True,
+        node_lts_version: str | None = None
     ) -> str:
         """Add a new package to package.json.
 
@@ -262,6 +273,7 @@ class PackageUpdatesTools:
             install: Whether to run package manager install after adding
             manager: Package manager to use (npm, yarn, or pnpm)
             npm_lookup: Whether to lookup package versions from npm registry
+            node_lts_version: Node.js LTS version for compatibility checks (uses instance default if None)
 
         Returns:
             String with operation status
@@ -282,16 +294,21 @@ class PackageUpdatesTools:
             if not version or version == "latest":
                 if npm_lookup:
                     try:
-                        node_ver = PackageUpdatesUtils.detect_node_version(pkg)
+                        # Use provided node_lts_version or instance default or detect from environment
+                        target_node_version = node_lts_version or self.node_lts_version
+                        if not target_node_version:
+                            target_node_version = PackageUpdatesUtils.detect_node_version(
+                                pkg)
+
                         packument = PackageUpdatesUtils.fetch_packument(
                             package_name, self.npm_registry)
                         best = PackageUpdatesUtils.choose_best_version(
-                            package_name, "*", node_ver, False, packument
+                            package_name, "*", target_node_version, False, packument
                         )
                         if best:
                             version = f"^{best}"
                         else:
-                            return f"Error: Could not find compatible version for '{package_name}'"
+                            return f"Error: Could not find compatible version for '{package_name}' compatible with Node.js {target_node_version}"
                     except Exception as e:
                         return f"Error fetching package info: {str(e)}"
                 else:
@@ -407,7 +424,9 @@ class PackageUpdatesTools:
                 return f"Error: package.json not found at {package_json_path}"
 
             pkg = JsonUtils.read_json(package_path)
-            node_ver = PackageUpdatesUtils.detect_node_version(pkg)
+            # Use instance node_lts_version or detect from environment
+            node_ver = self.node_lts_version if self.node_lts_version != "18.0.0" else PackageUpdatesUtils.detect_node_version(
+                pkg)
             deps = PackageUpdatesUtils.load_deps(pkg)
 
             # Filter to only requested packages
@@ -419,7 +438,11 @@ class PackageUpdatesTools:
 
             proposed: Dict[str, str] = {}
             report_lines = [
-                f"Detected Node.js: {node_ver}", f"Updating {len(requested_deps)} package(s)...", ""]
+                f"Target Node.js LTS: {self.node_lts_version}",
+                f"Detected Node.js: {node_ver}",
+                f"Updating {len(requested_deps)} package(s)...",
+                ""
+            ]
 
             # Skip npm lookup if npm_lookup is False
             if not npm_lookup:

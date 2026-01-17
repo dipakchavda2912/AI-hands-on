@@ -91,6 +91,10 @@ class AddPackageInput(BaseModel):
         default=True,
         description="Whether to lookup package versions from npm registry. If False, uses specified version or 'latest'."
     )
+    node_lts_version: Optional[str] = Field(
+        default=None,
+        description="Node.js LTS version for package compatibility checks. If not specified, will be detected from environment."
+    )
 
 
 class RemovePackageInput(BaseModel):

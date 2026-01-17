@@ -19,8 +19,10 @@ class Agent():
     agent_prompt: AgentPropmpt
     llm: ChatGoogleGenerativeAI
     agent: Any  # CompiledGraph from LangChain
+    node_lts_version: str
 
-    def __init__(self):
+    def __init__(self, node_lts_version: str):
+        self.node_lts_version = node_lts_version
         self.tools = self.init_tools()
         self.agent_prompt = AgentPropmpt()
         self.llm = self.init_llm()
@@ -30,7 +32,8 @@ class Agent():
         github_tools = GithubTools()
         yaml_tools = YamlTools()
         json_tools = JsonTools()
-        package_updates_tools = PackageUpdatesTools()
+        package_updates_tools = PackageUpdatesTools(
+            node_lts_version=self.node_lts_version)
         return github_tools.get_tools() + yaml_tools.get_tools() + json_tools.get_tools() + package_updates_tools.get_tools()
 
     def init_llm(self) -> ChatGoogleGenerativeAI:

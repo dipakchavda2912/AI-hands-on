@@ -19,9 +19,10 @@ class Main():
     agent_prompt = None
     agent = None
     agent_executor = None
+    node_lts_version = '22.11.0'  # Node.js LTS version for package compatibility
 
     def __init__(self):
-        self.agent_instance = Agent()
+        self.agent_instance = Agent(node_lts_version=self.node_lts_version)
         pass
 
     def get_query(self) -> List[str]:
@@ -29,14 +30,13 @@ class Main():
         parent_folder_name = f"base-serverless-{ExecutionUtils.get_current_datetime_string()}"
         clone_path = f"/tmp/{parent_folder_name}/base-serverless-clone/"
         branch = "develop"
-        node_lts_version = '22.11.0'
 
         # Use instruction service to get all instructions
         instruction_service = InstructionService(
             repository=source_repository,
             clone_path=clone_path,
             branch=branch,
-            node_lts_version=node_lts_version
+            node_lts_version=self.node_lts_version
         )
 
         return instruction_service.get_all_instructions()
