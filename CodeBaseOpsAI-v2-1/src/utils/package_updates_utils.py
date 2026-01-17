@@ -275,7 +275,8 @@ class PackageUpdatesUtils:
             cwd: Working directory where package.json is located (optional)
         """
         if manager == "npm":
-            PackageUpdatesUtils.sh(["npm", "install"], check=True, cwd=cwd)
+            PackageUpdatesUtils.sh(
+                ["npm", "install", "--legacy-peer-deps"], check=True, cwd=cwd)
         elif manager == "yarn":
             PackageUpdatesUtils.sh(["yarn", "install"], check=True, cwd=cwd)
         elif manager == "pnpm":
