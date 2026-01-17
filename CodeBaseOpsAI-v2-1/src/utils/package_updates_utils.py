@@ -22,13 +22,14 @@ class PackageUpdatesUtils:
     """Utility class for npm package updates and version management."""
 
     @staticmethod
-    def sh(cmd: List[str], check: bool = True, capture: bool = False) -> subprocess.CompletedProcess:
+    def sh(cmd: List[str], check: bool = True, capture: bool = False, cwd: Optional[str] = None) -> subprocess.CompletedProcess:
         """Execute a shell command.
 
         Args:
             cmd: Command and arguments as a list
             check: Whether to raise exception on non-zero exit
             capture: Whether to capture stdout
+            cwd: Working directory for the command (optional)
 
         Returns:
             CompletedProcess instance
@@ -37,7 +38,8 @@ class PackageUpdatesUtils:
             cmd,
             check=check,
             stdout=subprocess.PIPE if capture else None,
-            stderr=subprocess.STDOUT
+            stderr=subprocess.STDOUT,
+            cwd=cwd
         )
 
     @staticmethod
@@ -265,18 +267,19 @@ class PackageUpdatesUtils:
         return pkg
 
     @staticmethod
-    def run_package_manager_install(manager: str):
+    def run_package_manager_install(manager: str, cwd: Optional[str] = None):
         """Run package manager install command.
 
         Args:
             manager: Package manager name (npm, yarn, or pnpm)
+            cwd: Working directory where package.json is located (optional)
         """
         if manager == "npm":
-            PackageUpdatesUtils.sh(["npm", "install"], check=True)
+            PackageUpdatesUtils.sh(["npm", "install"], check=True, cwd=cwd)
         elif manager == "yarn":
-            PackageUpdatesUtils.sh(["yarn", "install"], check=True)
+            PackageUpdatesUtils.sh(["yarn", "install"], check=True, cwd=cwd)
         elif manager == "pnpm":
-            PackageUpdatesUtils.sh(["pnpm", "install"], check=True)
+            PackageUpdatesUtils.sh(["pnpm", "install"], check=True, cwd=cwd)
         else:
             raise SystemExit(f"Unsupported manager: {manager}")
 

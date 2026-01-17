@@ -180,7 +180,8 @@ class PackageUpdatesTools:
             report_lines.append(f"\nSuccessfully updated {package_json_path}")
 
             if apply_updates:
-                PackageUpdatesUtils.run_package_manager_install(manager)
+                PackageUpdatesUtils.run_package_manager_install(
+                    manager, cwd=str(package_path.parent))
                 report_lines.append(f"Dependencies installed using {manager}")
 
             return "\n".join(report_lines)
@@ -308,7 +309,8 @@ class PackageUpdatesTools:
             result = f"Successfully added '{package_name}@{version}' to {section}"
 
             if install:
-                PackageUpdatesUtils.run_package_manager_install(manager)
+                PackageUpdatesUtils.run_package_manager_install(
+                    manager, cwd=str(package_path.parent))
                 result += f"\nPackage installed using {manager}"
 
             return result
@@ -454,7 +456,8 @@ class PackageUpdatesTools:
                 f"\nSuccessfully updated {len(proposed)} package(s) in {package_json_path}")
 
             if apply_updates:
-                PackageUpdatesUtils.run_package_manager_install(manager)
+                PackageUpdatesUtils.run_package_manager_install(
+                    manager, cwd=str(package_path.parent))
                 report_lines.append(f"Dependencies installed using {manager}")
 
             return "\n".join(report_lines)
