@@ -37,7 +37,8 @@ class GithubUtils:
 
             # List files in root directory
             contents = repo.get_contents("", ref=branch)
-            contents_list = list(contents) if isinstance(contents, list) else [contents]
+            contents_list = list(contents) if isinstance(
+                contents, list) else [contents]
             for content in contents_list[:10]:  # Limit to first 10 items
                 info.append(f"  - {content.path} ({content.type})")
 

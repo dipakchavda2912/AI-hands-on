@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.tools import StructuredTool
-from .tools import GithubTools, YamlTools
+from .tools import GithubTools, YamlTools, JsonTools, PackageUpdatesTools
 from .agent_prompt import AgentPropmpt
 
 
@@ -29,7 +29,9 @@ class Agent():
     def init_tools(self) -> List[StructuredTool]:
         github_tools = GithubTools()
         yaml_tools = YamlTools()
-        return github_tools.get_tools() + yaml_tools.get_tools()
+        json_tools = JsonTools()
+        package_updates_tools = PackageUpdatesTools()
+        return github_tools.get_tools() + yaml_tools.get_tools() + json_tools.get_tools() + package_updates_tools.get_tools()
 
     def init_llm(self) -> ChatGoogleGenerativeAI:
         load_dotenv()

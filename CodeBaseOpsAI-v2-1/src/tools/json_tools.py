@@ -1,15 +1,13 @@
-import json
-import os
 from langchain_core.tools import StructuredTool
 from ..schemas.json_schemas import (
     ParseJsonInput,
     AddJsonAttributeInput,
     SaveJsonToFileInput
 )
+from ..utils import JsonUtils
 
 
 class JsonTools:
-    pass
     """A collection of JSON-related tools for the agent to use."""
 
     def parse_json(self, json_string: str) -> dict:
@@ -21,7 +19,7 @@ class JsonTools:
         Returns:
             A dictionary representation of the JSON string.
         """
-        return json.loads(json_string)
+        return JsonUtils.parse_json(json_string)
 
     def add_new_attribute(self, json_data: dict, key: str, value) -> dict:
         """Add a new attribute to a JSON object.
@@ -34,8 +32,7 @@ class JsonTools:
         Returns:
             The updated JSON object with the new attribute added.
         """
-        json_data[key] = value
-        return json_data
+        return JsonUtils.add_attribute(json_data, key, value)
 
     def save_json_to_file(self, json_data: dict, file_path: str) -> None:
         """Save a JSON object to a file.
@@ -44,8 +41,7 @@ class JsonTools:
             json_data: The JSON object as a dictionary.
             file_path: The path to the file where the JSON should be saved.
         """
-        with open(file_path, 'w') as json_file:
-            json.dump(json_data, json_file, indent=4)
+        JsonUtils.write_json(file_path, json_data)
 
     def get_tools(self) -> list[StructuredTool]:
         """Get list of all available tools."""
